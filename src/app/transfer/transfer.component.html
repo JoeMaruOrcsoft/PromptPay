@@ -1,0 +1,109 @@
+<div class="bg">
+  <div class="container">
+    <div class="jumbotron">
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div>
+          <img src="../../assets//image//bblwide.png" height="35" class="d-inline-block align-top" style="margin-right: 20px;">
+        </div>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+          aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item ">
+              <a class="nav-link" routerLink="/account" routerLinkActive="active">Account
+                <span class="sr-only">(current)</span>
+              </a>
+            </li>
+            <li class="nav-item active" style="font-weight:500;">
+              <a class="nav-link" routerLink="/transfer" routerLinkActive="active">Transfer
+                <span class="sr-only">(current)</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" routerLink="/promptpay" routerLinkActive="active">PromptPay Setting
+                <span class="sr-only">(current)</span>
+              </a>
+            </li>
+          </ul>
+          <button class="btn btn-outline-primary my-2 my-sm-0" (click)="signout()">Sign out</button>
+        </div>
+
+      </nav>
+      <ul class="nav nav-tabs nav-justified" id="myTab" role="tablist" style="margin-top: 15px;">
+        <li class="nav-item" style=" font-weight: 500;">
+          <a class="nav-link active" id="promptpay-tab" data-toggle="tab" href="#promptpay" role="tab" aria-controls="promptpay" aria-selected="true">PromptPay</a>
+        </li>
+        <li class="nav-item" style=" font-weight: 500;">
+          <a class="nav-link" id="account-tab" data-toggle="tab" href="#account" role="tab" aria-controls="account" aria-selected="false">Account Number</a>
+        </li>
+      </ul>
+      <div class="tab-content">
+        <div class="tab-pane fade show active" id="promptpay" role="tabpanel" aria-labelledby="promptpay-tab">
+          <div class="card">
+            <div class="card-body">
+              <div class="form-group">
+                <label for="acc">From Account</label>
+                <select class="form-control" id="acc" [(ngModel)]="promptpayTransfer.fromAcc" name="fromAcc">
+                  <option *ngFor="let acc of accountList" [ngValue]="acc">{{acc}}</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="type">Select Type</label>
+                <select class="form-control border-bottom-0" id="type" [(ngModel)]="promptpayTransfer.toIDType" name="type" style="border-bottom-right-radius:0;border-bottom-left-radius:0;">
+                  <option value="mobile">Mobile No.</option>
+                  <option value="citizen">Citizen ID</option>
+                </select>
+                <div *ngIf="promptpayTransfer.toIDType=='mobile'">
+                    <input style="border-top-right-radius:0;border-top-left-radius:0;" type="text" class="form-control" [(ngModel)]="promptpayTransfer.toIDValue" name="mobile" placeholder="Enter Mobile No. here (e.g.0819081361)">
+                  </div>
+                  <div *ngIf="promptpayTransfer.toIDType=='citizen'">
+                    <input style="border-top-right-radius:0;border-top-left-radius:0;"type="text" class="form-control" [(ngModel)]="promptpayTransfer.toIDValue" name="citizen" placeholder="Enter Citizen ID here (e.g.1101700185478)">
+                  </div>
+              </div>
+              
+              <div class="form-group">
+                <label for="type">Amount</label>
+                <input type="text" class="form-control" [(ngModel)]="promptpayTransfer.amount" name="amount" placeholder="Enter Amount here">
+              </div>
+              <br>
+              <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#confirmDelete">Delete</button>
+
+            </div>
+          </div>
+        </div>
+        <div class="tab-pane fade " id="account" role="tabpanel" aria-labelledby="account-tab">
+          <div class="card">
+            <div class="card-body">
+              <div class="form-group">
+                <label for="acc">From Account</label>
+                <select class="form-control" id="acc" [(ngModel)]="accountTransfer.fromAcc" name="fromAcc">
+                  <option *ngFor="let acc of accountList" [ngValue]="acc">{{acc}}</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="type">To Account</label>
+                <input type="text" class="form-control" [(ngModel)]="accountTransfer.toAcc" name="toAcc" placeholder="Enter Account Number here (e.g.1592282902)">
+                <!-- <select class="form-control" id="type" [(ngModel)]="resultSet.idType" name="type">
+                      <option value="mobile">Mobile No.</option>
+                      <option value="citizen">Citizen ID</option>
+                    </select> -->
+              </div>
+              <!-- <div *ngIf="resultSet.idType=='mobile'">
+                    <input type="text" class="form-control" [(ngModel)]="resultSet.idValue" name="mobile" placeholder="Enter Account Number here (e.g.1592282902)">
+                  </div>
+                  <div *ngIf="resultSet.idType=='citizen'">
+                    <input type="text" class="form-control" [(ngModel)]="resultSet.idValue" name="citizen" placeholder="Enter Citizen ID here (e.g.1101700185478)">
+                  </div> -->
+              <br>
+              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#confirmRegister">Register</button>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

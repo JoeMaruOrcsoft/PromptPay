@@ -1,0 +1,357 @@
+<!-- <div class="container">
+  <div class="jumbotron">
+    <nav class="navbar navbar-default">
+      <div class="container-fluid">
+
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
+            aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+
+          <img class="navbar-brand" alt="Brand" src="../../assets//image//BBL.png">
+
+        </div>
+
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-nav navbar-left">
+            <li class="navbar-brand">Bangkok Bank</li>
+            <li>
+              <a routerLink="/account" routerLinkActive="active">Account</a>
+            </li>
+            <li>
+              <a routerLink="/transfer" routerLinkActive="active">Transfer</a>
+            </li>
+            <li  class="active">
+              <a routerLink="/promptpay" routerLinkActive="active">PromptPay Setting</a>
+            </li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+              <li><a (click)="signout()">Sign out</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <ul class="nav nav-tabs nav-justified">
+      <li class="active">
+        <a data-toggle="tab" href="#register">Register</a>
+      </li>
+      <li>
+        <a data-toggle="tab" href="#delete">Delete</a>
+      </li>
+    </ul>
+
+    <div class="tab-content">
+      <div id="register" class="tab-pane fade in active">
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <div>
+              <button (click)="callGetService('mobile','0000000011')">test GET</button>
+              <button (click)="callPostService()">test POST</button>
+            </div>
+            <div class="form-group">
+              <label for="acc">Select Account</label>
+              <select class="form-control" id="acc" [(ngModel)]="resultSet.accNumber" name="accNumber">
+                <option *ngFor="let acc of accountList" [ngValue]="acc">{{acc}}</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="type">Select Type</label>
+              <select class="form-control" id="type" [(ngModel)]="resultSet.idType" name="type">
+                <option value="mobile">Mobile No.</option>
+                <option value="citizen">Citizen ID</option>
+              </select>
+            </div>
+            <div *ngIf="resultSet.idType=='mobile'">
+              <input type="text" class="form-control" [(ngModel)]="resultSet.idValue" name="mobile" placeholder="Enter Mobile No. here (e.g.0819081361)">
+            </div>
+            <div *ngIf="resultSet.idType=='citizen'">
+              <input type="text" class="form-control" [(ngModel)]="resultSet.idValue" name="citizen" placeholder="Enter Citizen ID here (e.g.1101700185478)">
+            </div>
+            <br>
+            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#confirmRegister">Register</button>
+            <div class="modal fade" id="confirmRegister" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h4 class="modal-title" >
+                      <span class="glyphicon glyphicon-info-sign"></span>  Register PromptPay</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <div *ngIf="resultSet.idType=='mobile'">
+                      <label>Type</label>
+                      <h5>Mobile</h5>
+                      <br>
+                      <label>Mobile No.</label>
+                      <h5>{{resultSet.idValue}}</h5>
+                      <br>
+                    </div>
+                    <div *ngIf="resultSet.idType=='citizen'">
+                      <label>Type</label>
+                      <h5>Citizen</h5>
+                      <br>
+                      <label>Citizen ID</label>
+                      <h5>{{resultSet.idValue}}</h5>
+                      <br>
+                    </div>
+                    <label>Account No.</label>
+                    <h5>{{resultSet.accNumber}}</h5>
+                    <br>
+                    <label>Account Name</label>
+                    <h5>{{resultSet.accName}}</h5>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary">Confirm Register</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="delete" class="tab-pane fade">
+        <div class="panel panel-default">
+          <div class="panel-body">
+              <div class="form-group">
+                  <label for="type">Select Type</label>
+                  <select class="form-control" id="type" [(ngModel)]="deleteSet.idType" name="type">
+                    <option value="mobile">Mobile No.</option>
+                    <option value="citizen">Citizen ID</option>
+                  </select>
+                </div>
+                <div *ngIf="deleteSet.idType=='mobile'">
+                    <input type="text" class="form-control" [(ngModel)]="deleteSet.idValue" name="mobile" placeholder="Enter Mobile No. here (e.g.0819081361)">
+                  </div>
+                  <div *ngIf="deleteSet.idType=='citizen'">
+                    <input type="text" class="form-control" [(ngModel)]="deleteSet.idValue" name="citizen" placeholder="Enter Citizen ID here (e.g.1101700185478)">
+                  </div>
+                  <br>
+                  <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#confirmDelete">Delete</button>
+                  <div class="modal fade" id="confirmDelete" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                      <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h4 class="modal-title" >
+                              <span class="glyphicon glyphicon-info-sign"></span>  Delete PromptPay</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            </button>
+                          </div>
+                          <div class="modal-body">
+                            <div *ngIf="deleteSet.idType=='mobile'">
+                              <label>Type</label>
+                              <h5>Mobile</h5>
+                              <br>
+                              <label>Mobile No.</label>
+                              <h5>{{deleteSet.idValue}}</h5>
+                              <br>
+                            </div>
+                            <div *ngIf="deleteSet.idType=='citizen'">
+                              <label>Type</label>
+                              <h5>Citizen</h5>
+                              <br>
+                              <label>Citizen ID</label>
+                              <h5>{{deleteSet.idValue}}</h5>
+                              <br>
+                            </div>
+                            <label>Account No.</label>
+                            <h5>{{resultSet.accNumber}}</h5>
+                            <br>
+                            <label>Account Name</label>
+                            <h5>{{resultSet.accName}}</h5>
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                            <button type="button" class="btn btn-danger">Confirm Delete</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> -->
+<div class="bg">
+<div class="container">
+  <div class="jumbotron">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <div>
+          <img src="../../assets//image//bblwide.png" height="35" class="d-inline-block align-top" style="margin-right: 20px;" >
+      </div>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+        aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/account" routerLinkActive="active">Account
+              <span class="sr-only">(current)</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/transfer" routerLinkActive="active">Transfer
+              <span class="sr-only">(current)</span>
+            </a>
+          </li>
+          <li class="nav-item active" style="font-weight:500;">
+            <a class="nav-link" routerLink="/promptpay" routerLinkActive="active">PromptPay Setting
+              <span class="sr-only">(current)</span>
+            </a>
+          </li>
+        </ul>
+        <button class="btn btn-outline-primary my-2 my-sm-0" (click)="signout()">Sign out</button>
+      </div>
+      
+    </nav>
+    <ul class="nav nav-tabs nav-justified" id="myTab" role="tablist" style="margin-top: 15px;">
+      <li class="nav-item" style=" font-weight: 500;">
+        <a class="nav-link active"  id="register-tab" data-toggle="tab" href="#register" role="tab" aria-controls="register" aria-selected="true">Register</a>
+      </li>
+      <li class="nav-item" style=" font-weight: 500;">
+        <a class="nav-link" id="delete-tab" data-toggle="tab" href="#delete" role="tab" aria-controls="delete" aria-selected="false">Delete</a>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane fade show active" id="register" role="tabpanel" aria-labelledby="register-tab">
+        <div class="card">
+          <div class="card-body">
+            <div class="form-group">
+              <label for="acc">Select Account</label>
+              <select class="form-control" id="acc" [(ngModel)]="resultSet.accNumber" name="accNumber">
+                <option *ngFor="let acc of accountList" [ngValue]="acc">{{acc}}</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="type">Select Type</label>
+              <select class="form-control" id="type" [(ngModel)]="resultSet.idType" name="type">
+                <option value="mobile">Mobile No.</option>
+                <option value="citizen">Citizen ID</option>
+              </select>
+            </div>
+            <div *ngIf="resultSet.idType=='mobile'">
+              <input type="text" class="form-control" [(ngModel)]="resultSet.idValue" name="mobile" placeholder="Enter Mobile No. here (e.g.0819081361)">
+            </div>
+            <div *ngIf="resultSet.idType=='citizen'">
+              <input type="text" class="form-control" [(ngModel)]="resultSet.idValue" name="citizen" placeholder="Enter Citizen ID here (e.g.1101700185478)">
+            </div>
+            <br>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#confirmRegister">Register</button>
+
+          </div>
+        </div>
+      </div>
+      <div class="tab-pane fade" id="delete" role="tabpanel" aria-labelledby="delete-tab">
+        <div class="card">
+          <div class="card-body">
+              <div class="form-group">
+                  <label for="type">Select Type</label>
+                  <select class="form-control" id="type" [(ngModel)]="deleteSet.idType" name="type">
+                    <option value="mobile">Mobile No.</option>
+                    <option value="citizen">Citizen ID</option>
+                  </select>
+                </div>
+                <div *ngIf="deleteSet.idType=='mobile'">
+                    <input type="text" class="form-control" [(ngModel)]="deleteSet.idValue" name="mobile" placeholder="Enter Mobile No. here (e.g.0819081361)">
+                  </div>
+                  <div *ngIf="deleteSet.idType=='citizen'">
+                    <input type="text" class="form-control" [(ngModel)]="deleteSet.idValue" name="citizen" placeholder="Enter Citizen ID here (e.g.1101700185478)">
+                  </div>
+                  <br>
+                  <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#confirmDelete">Delete</button>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- move model here fix to fix bug -->
+<div class="modal fade" id="confirmRegister" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">
+          <span class="glyphicon glyphicon-info-sign"></span> Register PromptPay</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        </button>
+      </div>
+      <div class="modal-body">
+        <div *ngIf="resultSet.idType=='mobile'">
+          <label>Type</label>
+          <h5>Mobile</h5>
+          <br>
+          <label>Mobile No.</label>
+          <h5>{{resultSet.idValue}}</h5>
+          <br>
+        </div>
+        <div *ngIf="resultSet.idType=='citizen'">
+          <label>Type</label>
+          <h5>Citizen</h5>
+          <br>
+          <label>Citizen ID</label>
+          <h5>{{resultSet.idValue}}</h5>
+          <br>
+        </div>
+        <label>Account No.</label>
+        <h5>{{resultSet.accNumber}}</h5>
+        <br>
+        <label>Account Name</label>
+        <h5>{{resultSet.accName}}</h5>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary">Confirm Register</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="confirmDelete" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" >
+          <span class="glyphicon glyphicon-info-sign"></span>  Delete PromptPay</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        </button>
+      </div>
+      <div class="modal-body">
+        <div *ngIf="deleteSet.idType=='mobile'">
+          <label>Type</label>
+          <h5>Mobile</h5>
+          <br>
+          <label>Mobile No.</label>
+          <h5>{{deleteSet.idValue}}</h5>
+          <br>
+        </div>
+        <div *ngIf="deleteSet.idType=='citizen'">
+          <label>Type</label>
+          <h5>Citizen</h5>
+          <br>
+          <label>Citizen ID</label>
+          <h5>{{deleteSet.idValue}}</h5>
+          <br>
+        </div>
+        <label>Account No.</label>
+        <h5>{{resultSet.accNumber}}</h5>
+        <br>
+        <label>Account Name</label>
+        <h5>{{resultSet.accName}}</h5>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-danger">Confirm Delete</button>
+      </div>
+    </div>
+  </div>
+</div>

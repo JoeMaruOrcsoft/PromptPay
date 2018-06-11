@@ -1,0 +1,138 @@
+<!-- <div class="container">
+    <div class="jumbotron">
+      <nav class="navbar navbar-default">
+        <div class="container-fluid">
+  
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
+              aria-expanded="false">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+  
+            <img class="navbar-brand" alt="Brand" src="../../assets//image//BBL.png">
+  
+          </div>
+  
+          <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-left">
+              <li class="navbar-brand">Bangkok Bank</li>
+              <li class="active">
+                <a routerLink="/account" routerLinkActive="active">Account</a>
+              </li>
+              <li>
+                <a routerLink="/transfer" routerLinkActive="active">Transfer</a>
+              </li>
+              <li >
+                <a routerLink="/promptpay" routerLinkActive="active">PromptPay Setting</a>
+              </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a (click)="signout()">Sign out</a></li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+      <div class="col-sm-6">
+        <div class="panel panel-primary">
+          
+        </div>
+      </div>
+      <div class="col-sm-6">
+
+      </div>
+     
+    </div>
+  </div> -->
+<div class="bg">
+  <div class="container">
+    <div class="jumbotron">
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <!-- <div class="navbar-brand" href="#">
+            <img src="../../assets//image//BBL.png" width="30" height="30" class="d-inline-block align-top" alt=""> Bangkok Bank
+          </div> -->
+        <div>
+          <img src="../../assets//image//bblwide.png" height="35" class="d-inline-block align-top" style="margin-right: 20px;">
+        </div>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+          aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active" style="font-weight:500;">
+              <a class="nav-link" routerLink="/account" routerLinkActive="active">Account
+                <span class="sr-only">(current)</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" routerLink="/transfer" routerLinkActive="active">Transfer
+                <span class="sr-only">(current)</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" routerLink="/promptpay" routerLinkActive="active">PromptPay Setting
+                <span class="sr-only">(current)</span>
+              </a>
+            </li>
+          </ul>
+          <button class="btn btn-outline-primary my-2 my-sm-0" (click)="signout()">Sign out</button>
+        </div>
+      </nav>
+      <div class="card" style="margin-top: 15px;">
+        <div class="card-header" style=" font-weight: 500;">All Accounts
+          <span style="float: right;">Chonchanok Mitsatta</span>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <div class="card-deck">
+              <div class="card border-0">
+                <div class="card-body">
+                  <div class="card border-primary mb-3" style="max-width: 30rem;border-color: #003399;">
+                    <div class="card-header text-white" style="background-color:#003399; font-weight: 500;">
+                      <i class="icon ion-logo-bitcoin"></i>&nbsp;&nbsp;Savings</div>
+                    <div class="card-body text-primary" style="margin-right: 0px;">
+                      <h5 class="card-title">014-323055-4</h5>
+                      <p class="card-text">Balance : 5,023.73 Bahts
+                        <span>
+                          <p class="link" (click)="showHideDetail()" style="margin-bottom: 0px; float:right;font-weight: 500;">Detail</p>
+                        </span>
+                      </p>
+                      <!-- show recent transaction -->
+                      <div *ngIf="toggleDetail">
+                        <p class="card-text">line 1</p>
+                        <p class="card-text">line 2</p>
+                        <p class="card-text">line 3</p>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="card border-0">
+                <div class="card-body">
+                  <div class="card border-primary mb-3" style="max-width: 30rem;border-color: #003399;">
+                    <div class="card-header text-white" style="background-color:#003399; font-weight: 500;">
+                      <i class="icon ion-logo-bitcoin"></i>&nbsp;&nbsp;Savings</div>
+                    <div class="card-body text-primary" style="margin-left: 0px;">
+                      <h5 class="card-title">173-235270-3</h5>
+                      <p class="card-text">Balance : 12,750.25 Bahts
+                        <span>
+                          <p style="margin-bottom: 0px; float:right;font-weight: 500;">
+                            <a href="#" (click)="showHideDetail()">Detail</a>
+                          </p>
+                        </span>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
