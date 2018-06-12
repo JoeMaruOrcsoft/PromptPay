@@ -232,18 +232,18 @@
             </div>
             <div class="form-group">
               <label for="type">Select Type</label>
-              <select class="form-control" id="type" [(ngModel)]="resultSet.idType" name="type">
+              <select class="form-control border-bottom-0" style="border-bottom-right-radius:0;border-bottom-left-radius:0;"id="type" [(ngModel)]="resultSet.idType" name="type">
                 <option value="mobile">Mobile No.</option>
                 <option value="citizen">Citizen ID</option>
               </select>
+              <div *ngIf="resultSet.idType=='mobile'">
+                  <input style="border-top-right-radius:0;border-top-left-radius:0;" type="text" class="form-control" [(ngModel)]="resultSet.idValue" name="mobile" placeholder="Enter Mobile No. here (e.g.0819081361)">
+                </div>
+                <div *ngIf="resultSet.idType=='citizen'">
+                  <input style="border-top-right-radius:0;border-top-left-radius:0;" type="text" class="form-control" [(ngModel)]="resultSet.idValue" name="citizen" placeholder="Enter Citizen ID here (e.g.1101700185478)">
+                </div>
             </div>
-            <div *ngIf="resultSet.idType=='mobile'">
-              <input type="text" class="form-control" [(ngModel)]="resultSet.idValue" name="mobile" placeholder="Enter Mobile No. here (e.g.0819081361)">
-            </div>
-            <div *ngIf="resultSet.idType=='citizen'">
-              <input type="text" class="form-control" [(ngModel)]="resultSet.idValue" name="citizen" placeholder="Enter Citizen ID here (e.g.1101700185478)">
-            </div>
-            <br>
+
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#confirmRegister">Register</button>
 
           </div>
@@ -254,18 +254,17 @@
           <div class="card-body">
               <div class="form-group">
                   <label for="type">Select Type</label>
-                  <select class="form-control" id="type" [(ngModel)]="deleteSet.idType" name="type">
+                  <select class="form-control border-bottom-0" style="border-bottom-right-radius:0;border-bottom-left-radius:0;"id="type" [(ngModel)]="deleteSet.idType" name="type">
                     <option value="mobile">Mobile No.</option>
                     <option value="citizen">Citizen ID</option>
                   </select>
+                  <div *ngIf="resultSet.idType=='mobile'">
+                      <input style="border-top-right-radius:0;border-top-left-radius:0;" type="text" class="form-control" [(ngModel)]="deleteSet.idValue" name="mobile" placeholder="Enter Mobile No. here (e.g.0819081361)">
+                    </div>
+                    <div *ngIf="resultSet.idType=='citizen'">
+                      <input style="border-top-right-radius:0;border-top-left-radius:0;" type="text" class="form-control" [(ngModel)]="deleteSet.idValue" name="citizen" placeholder="Enter Citizen ID here (e.g.1101700185478)">
+                    </div>
                 </div>
-                <div *ngIf="deleteSet.idType=='mobile'">
-                    <input type="text" class="form-control" [(ngModel)]="deleteSet.idValue" name="mobile" placeholder="Enter Mobile No. here (e.g.0819081361)">
-                  </div>
-                  <div *ngIf="deleteSet.idType=='citizen'">
-                    <input type="text" class="form-control" [(ngModel)]="deleteSet.idValue" name="citizen" placeholder="Enter Citizen ID here (e.g.1101700185478)">
-                  </div>
-                  <br>
                   <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#confirmDelete">Delete</button>
 
           </div>
@@ -311,7 +310,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-        <button type="button" class="btn btn-primary">Confirm Register</button>
+        <button type="button" class="btn btn-primary">Confirm</button>
       </div>
     </div>
   </div>
@@ -350,7 +349,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-        <button type="button" class="btn btn-danger">Confirm Delete</button>
+        <button type="button" class="btn btn-danger">Confirm</button>
       </div>
     </div>
   </div>

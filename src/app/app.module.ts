@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 import { TestServiceService } from './test-service.service'
 import { HttpClientModule } from '@angular/common/http'; 
 import { HttpModule } from '@angular/http';
@@ -31,7 +31,8 @@ const appRoute :Routes = [
     RouterModule.forRoot(appRoute),
     FormsModule,
     HttpClientModule,
-    HttpModule
+    HttpModule,
+    ReactiveFormsModule
   ],
   exports:[RouterModule],
   providers: [TestServiceService],
