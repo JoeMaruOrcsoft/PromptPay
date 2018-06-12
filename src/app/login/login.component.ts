@@ -14,7 +14,7 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
   }
 
-  //check username/password + save username to useService 
+  //check username/password + save username to userService 
   signin(){
     this.router.navigate(['/account']);
   }

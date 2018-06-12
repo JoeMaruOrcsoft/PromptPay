@@ -82,24 +82,25 @@
         <div class="tab-pane fade " id="account" role="tabpanel" aria-labelledby="account-tab">
           <div class="card">
             <div class="card-body">
+                <form novalidate [formGroup]="accountForm">
               <div class="form-group">
                 <label for="acc">From Account</label>
-                <select class="form-control" id="acc" [(ngModel)]="accountTransfer.fromAcc" name="fromAcc">
+                <select class="form-control" id="acc" formControlName="fromAcc">
                   <option *ngFor="let acc of accountList" [ngValue]="acc">{{acc}}</option>
                 </select>
               </div>
               <div class="form-group">
                 <label for="type">To Account</label>
-                <input type="number" class="form-control" [(ngModel)]="accountTransfer.toAcc" name="toAcc" placeholder="Enter Account Number here (e.g.1592282902)"
+                <input type="number" class="form-control" formControlName="toAcc" placeholder="Enter Account Number here (e.g.1592282902)"
                   onkeydown="javascript: return event.keyCode == 69 ? false : true">
               </div>
               <div class="form-group">
                 <label for="type">Amount</label>
-                <input type="number" class="form-control" [(ngModel)]="accountTransfer.amount" name="amount" placeholder="Enter Amount here"
+                <input type="number" class="form-control" formControlName="amount" placeholder="Enter Amount here"
                   onkeydown="javascript: return event.keyCode == 69 ? false : true">
               </div>
-              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#confirmAccount">Review</button>
-
+              <button type="button" class="btn btn-primary" [disabled]="!accountForm.valid" data-toggle="modal" data-target="#confirmAccount">Review</button>
+              </form>
             </div>
           </div>
         </div>
@@ -118,19 +119,20 @@
         </button>
       </div>
       <div class="modal-body">
-        <!-- <label>From Account</label>
-        <h5>{{promptpayTransfer.fromAcc}}</h5>
+        <label>From Account</label>
+        <!-- seperate 3-6-1 digit -->
+        <h5>{{promptpayForm.controls['fromAcc'].value|slice:0:3}}-{{promptpayForm.controls['fromAcc'].value|slice:3:9}}-{{promptpayForm.controls['fromAcc'].value|slice:9:10}}</h5>
         <hr>
         <label>To Account</label>
-        <h5>{{promptpayTransfer.toAcc}}</h5>
+        <h5>{{promptpayForm.controls['toAcc'].value|slice:0:3}}-{{promptpayForm.controls['toAcc'].value|slice:3:9}}-{{promptpayForm.controls['toAcc'].value|slice:9:10}}</h5>
         <label>Account Name</label>
-        <h5>{{promptpayTransfer.accName}}</h5>
+        <h5>{{promptpayForm.controls['toAccName'].value}}</h5>
         <hr>
         <label>Amount</label>
-        <h5>{{promptpayTransfer.amount}} Bahts</h5>
+        <h5>{{promptpayForm.controls['amount'].value|number :'.2-2'}} Bahts</h5> <!-- format into 2 decimal points-->
         <label>Fee</label>
-        <h5>{{promptpayTransfer.fee}}</h5> -->
-        <div class="row">
+        <h5>{{promptpayTransfer.fee}}</h5>
+        <!-- <div class="row">
           <div class=" col-6 float-right" style="text-align: right;">
             <label>From Account</label>
             <br>
@@ -145,12 +147,12 @@
           <div class="col-6 float-left">
             <h5>{{promptpayTransfer.fromAcc}}</h5>
             <h5>
-              <!-- {{promptpayTransfer.toAcc}} -->1234567890</h5>
+             1234567890</h5>
             <h5>{{promptpayTransfer.accName}}</h5>
             <h5>{{promptpayTransfer.amount}} Bahts</h5>
             <h5>{{promptpayTransfer.fee}}</h5>
           </div>
-        </div>
+        </div> -->
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
@@ -169,15 +171,15 @@
       </div>
       <div class="modal-body">
         <label>From Account</label>
-        <h5>{{accountTransfer.fromAcc}}</h5>
+        <h5>{{accountForm.controls['fromAcc'].value|slice:0:3}}-{{accountForm.controls['fromAcc'].value|slice:3:9}}-{{accountForm.controls['fromAcc'].value|slice:9:10}}</h5>
         <hr>
         <label>To Account</label>
-        <h5>{{accountTransfer.toAcc}}</h5>
+        <h5>{{accountForm.controls['toAcc'].value|slice:0:3}}-{{accountForm.controls['toAcc'].value|slice:3:9}}-{{accountForm.controls['toAcc'].value|slice:9:10}}</h5>
         <label>Account Name</label>
-        <h5>{{accountTransfer.accName}}</h5>
+        <h5>{{accountForm.controls['toAccName'].value}}</h5>
         <hr>
         <label>Amount</label>
-        <h5>{{accountTransfer.amount}} Bahts</h5>
+        <h5>{{accountForm.controls['amount'].value|number :'.2-2'}} Bahts</h5>
         <label>Fee</label>
         <h5>{{accountTransfer.fee}}</h5>
       </div>
