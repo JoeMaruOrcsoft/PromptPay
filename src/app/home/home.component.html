@@ -179,100 +179,104 @@
   </div>
 </div> -->
 <div class="bg">
-<div class="container">
-  <div class="jumbotron">
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <div>
-          <img src="../../assets//image//bblwide.png" height="35" class="d-inline-block align-top" style="margin-right: 20px;" >
-      </div>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-        aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item">
-            <a class="nav-link" routerLink="/account" routerLinkActive="active">Account
-              <span class="sr-only">(current)</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" routerLink="/transfer" routerLinkActive="active">Transfer
-              <span class="sr-only">(current)</span>
-            </a>
-          </li>
-          <li class="nav-item active" style="font-weight:500;">
-            <a class="nav-link" routerLink="/promptpay" routerLinkActive="active">PromptPay Setting
-              <span class="sr-only">(current)</span>
-            </a>
-          </li>
-        </ul>
-        <button class="btn btn-outline-primary my-2 my-sm-0" (click)="signout()">Sign out</button>
-      </div>
-      
-    </nav>
-    <ul class="nav nav-tabs nav-justified" id="myTab" role="tablist" style="margin-top: 15px;">
-      <li class="nav-item" style=" font-weight: 500;">
-        <a class="nav-link active"  id="register-tab" data-toggle="tab" href="#register" role="tab" aria-controls="register" aria-selected="true">Register</a>
-      </li>
-      <li class="nav-item" style=" font-weight: 500;">
-        <a class="nav-link" id="delete-tab" data-toggle="tab" href="#delete" role="tab" aria-controls="delete" aria-selected="false">Delete</a>
-      </li>
-    </ul>
-    <div class="tab-content">
-      <div class="tab-pane fade show active" id="register" role="tabpanel" aria-labelledby="register-tab">
-        <div class="card">
-          <div class="card-body">
-            <div class="form-group">
-              <label for="acc">Select Account</label>
-              <select class="form-control" id="acc" [(ngModel)]="resultSet.accNumber" name="accNumber">
-                <option *ngFor="let acc of accountList" [ngValue]="acc">{{acc}}</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label for="type">Select Type</label>
-              <select class="form-control border-bottom-0" style="border-bottom-right-radius:0;border-bottom-left-radius:0;"id="type" [(ngModel)]="resultSet.idType" name="type">
-                <option value="mobile">Mobile No.</option>
-                <option value="citizen">Citizen ID</option>
-              </select>
-              <div *ngIf="resultSet.idType=='mobile'">
-                  <input style="border-top-right-radius:0;border-top-left-radius:0;" type="text" class="form-control" [(ngModel)]="resultSet.idValue" name="mobile" placeholder="Enter Mobile No. here (e.g.0819081361)">
-                </div>
-                <div *ngIf="resultSet.idType=='citizen'">
-                  <input style="border-top-right-radius:0;border-top-left-radius:0;" type="text" class="form-control" [(ngModel)]="resultSet.idValue" name="citizen" placeholder="Enter Citizen ID here (e.g.1101700185478)">
-                </div>
-            </div>
-
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#confirmRegister">Register</button>
-
-          </div>
+  <div class="container">
+    <div class="jumbotron">
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div>
+          <img src="../../assets//image//bblwide.png" height="35" class="d-inline-block align-top" style="margin-right: 20px;">
         </div>
-      </div>
-      <div class="tab-pane fade" id="delete" role="tabpanel" aria-labelledby="delete-tab">
-        <div class="card">
-          <div class="card-body">
-              <div class="form-group">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+          aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+              <a class="nav-link" routerLink="/account" routerLinkActive="active">Account
+                <span class="sr-only">(current)</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" routerLink="/transfer" routerLinkActive="active">Transfer
+                <span class="sr-only">(current)</span>
+              </a>
+            </li>
+            <li class="nav-item active" style="font-weight:500;">
+              <a class="nav-link" routerLink="/promptpay" routerLinkActive="active">PromptPay Setting
+                <span class="sr-only">(current)</span>
+              </a>
+            </li>
+          </ul>
+          <button class="btn btn-outline-primary my-2 my-sm-0" (click)="signout()">Sign out</button>
+        </div>
+
+      </nav>
+      <ul class="nav nav-tabs nav-justified" id="myTab" role="tablist" style="margin-top: 15px;">
+        <li class="nav-item" style=" font-weight: 500;">
+          <a class="nav-link active" id="register-tab" data-toggle="tab" href="#register" role="tab" aria-controls="register" aria-selected="true">Register</a>
+        </li>
+        <li class="nav-item" style=" font-weight: 500;">
+          <a class="nav-link" id="delete-tab" data-toggle="tab" href="#delete" role="tab" aria-controls="delete" aria-selected="false">Delete</a>
+        </li>
+      </ul>
+      <div class="tab-content">
+        <div class="tab-pane fade show active" id="register" role="tabpanel" aria-labelledby="register-tab">
+          <div class="card">
+            <div class="card-body">
+              <form novalidate [formGroup]="resultForm">
+                <div class="form-group">
+                  <label for="acc">Select Account</label>
+                  <select class="form-control" id="acc" formControlName="accNumber">
+                    <option *ngFor="let acc of accountList" [ngValue]="acc">{{acc}}</option>
+                  </select>
+                </div>
+                <div class="form-group">
                   <label for="type">Select Type</label>
-                  <select class="form-control border-bottom-0" style="border-bottom-right-radius:0;border-bottom-left-radius:0;"id="type" [(ngModel)]="deleteSet.idType" name="type">
+                  <select class="form-control border-bottom-0" style="border-bottom-right-radius:0;border-bottom-left-radius:0;" id="type"
+                  formControlName="idType">
                     <option value="mobile">Mobile No.</option>
                     <option value="citizen">Citizen ID</option>
                   </select>
                   <div *ngIf="resultSet.idType=='mobile'">
-                      <input style="border-top-right-radius:0;border-top-left-radius:0;" type="text" class="form-control" [(ngModel)]="deleteSet.idValue" name="mobile" placeholder="Enter Mobile No. here (e.g.0819081361)">
-                    </div>
-                    <div *ngIf="resultSet.idType=='citizen'">
-                      <input style="border-top-right-radius:0;border-top-left-radius:0;" type="text" class="form-control" [(ngModel)]="deleteSet.idValue" name="citizen" placeholder="Enter Citizen ID here (e.g.1101700185478)">
-                    </div>
+                    <input style="border-top-right-radius:0;border-top-left-radius:0;" type="text" class="form-control" formControlName="idValue" placeholder="Enter Mobile No. here (e.g.0819081361)" onkeydown="javascript: return event.keyCode >=48 && event.keyCode<=57 ||event.keyCode == 8? true : false">
+                  </div>
+                  <div *ngIf="resultSet.idType=='citizen'">
+                    <input style="border-top-right-radius:0;border-top-left-radius:0;" type="number" class="form-control" formControlName="idValue" placeholder="Enter Citizen ID here (e.g.1101700185478)" onkeydown="javascript: return event.keyCode == 69 ? false : true">
+                  </div>
                 </div>
-                  <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#confirmDelete">Delete</button>
 
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#confirmRegister"[disabled]="!resultForm.valid">Register</button>
+              </form>
+            </div>
+          </div>
+        </div>
+        <div class="tab-pane fade" id="delete" role="tabpanel" aria-labelledby="delete-tab">
+          <div class="card">
+            <div class="card-body">
+                <form novalidate [formGroup]="deleteForm">
+              <div class="form-group">
+                <label for="type">Select Type</label>
+                <select class="form-control border-bottom-0" style="border-bottom-right-radius:0;border-bottom-left-radius:0;" id="type"
+                formControlName="idType">
+                  <option value="mobile">Mobile No.</option>
+                  <option value="citizen">Citizen ID</option>
+                </select>
+                <div *ngIf="resultSet.idType=='mobile'">
+                  <input style="border-top-right-radius:0;border-top-left-radius:0;" type="text" class="form-control" formControlName="idValue" placeholder="Enter Mobile No. here (e.g.0819081361)" onkeydown="javascript: return event.keyCode >=48 && event.keyCode<=57 ||event.keyCode == 8? true : false">
+                </div>
+                <div *ngIf="resultSet.idType=='citizen'">
+                  <input style="border-top-right-radius:0;border-top-left-radius:0;" type="number" class="form-control" formControlName="idValue" placeholder="Enter Citizen ID here (e.g.1101700185478)" onkeydown="javascript: return event.keyCode == 69 ? false : true">
+                </div>
+              </div>
+              <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#confirmDelete" [disabled]="!deleteForm.valid">Delete</button>
+              </form>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-</div>
 </div>
 
 <!-- move model here fix to fix bug -->
@@ -286,24 +290,24 @@
         </button>
       </div>
       <div class="modal-body">
-        <div *ngIf="resultSet.idType=='mobile'">
+        <div *ngIf="resultForm.controls['idType'].value=='mobile'">
           <label>Type</label>
           <h5>Mobile</h5>
           <br>
           <label>Mobile No.</label>
-          <h5>{{resultSet.idValue}}</h5>
+          <h5>{{resultForm.controls['idValue'].value}}</h5>
           <br>
         </div>
-        <div *ngIf="resultSet.idType=='citizen'">
+        <div *ngIf="resultForm.controls['idType'].value=='citizen'">
           <label>Type</label>
           <h5>Citizen</h5>
           <br>
           <label>Citizen ID</label>
-          <h5>{{resultSet.idValue}}</h5>
+          <h5>{{resultForm.controls['idValue'].value}}</h5>
           <br>
         </div>
         <label>Account No.</label>
-        <h5>{{resultSet.accNumber}}</h5>
+        <h5>{{resultForm.controls['idType'].accNumber}}</h5>
         <br>
         <label>Account Name</label>
         <h5>{{resultSet.accName}}</h5>
@@ -319,33 +323,33 @@
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title" >
-          <span class="glyphicon glyphicon-info-sign"></span>  Delete PromptPay</h4>
+        <h4 class="modal-title">
+          <span class="glyphicon glyphicon-info-sign"></span> Delete PromptPay</h4>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
         </button>
       </div>
       <div class="modal-body">
-        <div *ngIf="deleteSet.idType=='mobile'">
+        <div *ngIf="deleteForm.controls['idType'].value=='mobile'">
           <label>Type</label>
           <h5>Mobile</h5>
           <br>
           <label>Mobile No.</label>
-          <h5>{{deleteSet.idValue}}</h5>
+          <h5>{{deleteForm.controls['idValue'].value}}</h5>
           <br>
         </div>
-        <div *ngIf="deleteSet.idType=='citizen'">
+        <div *ngIf="deleteForm.controls['idType'].value=='citizen'">
           <label>Type</label>
           <h5>Citizen</h5>
           <br>
           <label>Citizen ID</label>
-          <h5>{{deleteSet.idValue}}</h5>
+          <h5>{{deleteForm.controls['idValue'].value}}</h5>
           <br>
         </div>
         <label>Account No.</label>
-        <h5>{{resultSet.accNumber}}</h5>
+        <h5>{{deleteSet.accNumber}}</h5>
         <br>
         <label>Account Name</label>
-        <h5>{{resultSet.accName}}</h5>
+        <h5>{{deleteSet.accName}}</h5>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>

@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-account',
@@ -9,6 +8,7 @@ import { Location } from '@angular/common';
 })
 export class AccountComponent implements OnInit {
   toggleDetail = false;
+  toggleDetail2 = false;
 
   constructor(private router: Router) { }
 
@@ -19,5 +19,8 @@ export class AccountComponent implements OnInit {
   }
   showHideDetail(){
     this.toggleDetail = !this.toggleDetail;
+  }
+  showHideDetail2(){
+    this.toggleDetail2 = !this.toggleDetail2;
   }
 }

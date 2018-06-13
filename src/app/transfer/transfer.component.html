@@ -58,7 +58,7 @@
                     <option value="citizen">Citizen ID</option>
                   </select>
                   <div *ngIf="promptpayTransfer.toIDType=='mobile'">
-                    <input style="border-top-right-radius:0;border-top-left-radius:0;" type="number" onkeydown="javascript: return event.keyCode == 69 ? false : true"
+                    <input style="border-top-right-radius:0;border-top-left-radius:0;" type="text" onkeydown="javascript: return event.keyCode >=48 && event.keyCode<=57 ||event.keyCode == 8? true : false"
                       class="form-control" formControlName="toIDValue" placeholder="Enter Mobile No. here (e.g.0819081361)">
                   </div>
                   <div *ngIf="promptpayTransfer.toIDType=='citizen'">
@@ -91,15 +91,15 @@
               </div>
               <div class="form-group">
                 <label for="type">To Account</label>
-                <input type="number" class="form-control" formControlName="toAcc" placeholder="Enter Account Number here (e.g.1592282902)"
-                  onkeydown="javascript: return event.keyCode == 69 ? false : true">
+                <input type="text" class="form-control" formControlName="toAcc" placeholder="Enter Account Number here (e.g.1592282902)"
+                  onkeydown="javascript: return event.keyCode >=48 && event.keyCode<=57 ||event.keyCode == 8? true : false">
               </div>
               <div class="form-group">
                 <label for="type">Amount</label>
                 <input type="number" class="form-control" formControlName="amount" placeholder="Enter Amount here"
                   onkeydown="javascript: return event.keyCode == 69 ? false : true">
               </div>
-              <button type="button" class="btn btn-primary" [disabled]="!accountForm.valid" data-toggle="modal" data-target="#confirmAccount">Review</button>
+              <button (click)="changeHideAcc()"type="button" class="btn btn-primary" [disabled]="!accountForm.valid" data-toggle="modal" data-target="#confirmAccount">Review</button>
               </form>
             </div>
           </div>
@@ -121,10 +121,10 @@
       <div class="modal-body">
         <label>From Account</label>
         <!-- seperate 3-6-1 digit -->
-        <h5>{{promptpayForm.controls['fromAcc'].value|slice:0:3}}-{{promptpayForm.controls['fromAcc'].value|slice:3:9}}-{{promptpayForm.controls['fromAcc'].value|slice:9:10}}</h5>
+        <h5>{{promptpayForm.controls['fromAcc'].value|slice:0:3}}-{{promptpayForm.controls['fromAcc'].value|slice:3:4}}-{{promptpayForm.controls['fromAcc'].value|slice:4:9}}-{{promptpayForm.controls['fromAcc'].value|slice:9:10}}</h5>
         <hr>
         <label>To Account</label>
-        <h5>{{promptpayForm.controls['toAcc'].value|slice:0:3}}-{{promptpayForm.controls['toAcc'].value|slice:3:9}}-{{promptpayForm.controls['toAcc'].value|slice:9:10}}</h5>
+        <h5>{{promptpayForm.controls['toAcc'].value|slice:0:3}}-{{promptpayForm.controls['toAcc'].value|slice:3:4}}-{{promptpayForm.controls['toAcc'].value|slice:4:9}}-{{promptpayForm.controls['toAcc'].value|slice:9:10}}</h5>
         <label>Account Name</label>
         <h5>{{promptpayForm.controls['toAccName'].value}}</h5>
         <hr>
@@ -156,7 +156,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-        <button type="button" class="btn btn-primary">Confirm</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal"(click)="proceedTransferPromptPay()">Confirm</button>
       </div>
     </div>
   </div>
@@ -171,10 +171,12 @@
       </div>
       <div class="modal-body">
         <label>From Account</label>
-        <h5>{{accountForm.controls['fromAcc'].value|slice:0:3}}-{{accountForm.controls['fromAcc'].value|slice:3:9}}-{{accountForm.controls['fromAcc'].value|slice:9:10}}</h5>
+        <h5>{{accountForm.controls['fromAcc'].value|slice:0:3}}-{{accountForm.controls['fromAcc'].value|slice:3:4}}-{{accountForm.controls['fromAcc'].value|slice:4:9}}{{accountForm.controls['fromAcc'].value|slice:9:10}}</h5>
         <hr>
         <label>To Account</label>
-        <h5>{{accountForm.controls['toAcc'].value|slice:0:3}}-{{accountForm.controls['toAcc'].value|slice:3:9}}-{{accountForm.controls['toAcc'].value|slice:9:10}}</h5>
+        <div *ngIf="!hideAcc">
+        <h5>{{accountForm.controls['toAcc'].value|slice:0:3}}-{{accountForm.controls['fromAcc'].value|slice:3:4}}-{{accountForm.controls['fromAcc'].value|slice:4:9}}{{accountForm.controls['fromAcc'].value|slice:9:10}}</h5>
+      </div>
         <label>Account Name</label>
         <h5>{{accountForm.controls['toAccName'].value}}</h5>
         <hr>
@@ -182,11 +184,15 @@
         <h5>{{accountForm.controls['amount'].value|number :'.2-2'}} Bahts</h5>
         <label>Fee</label>
         <h5>{{accountTransfer.fee}}</h5>
+      
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-        <button type="button" class="btn btn-danger">Confirm</button>
+        <button (click)="changeHideAcc()" type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal"(click)="proceedTransferAccount()">Confirm</button>
       </div>
     </div>
   </div>
+</div>
+<div class="modal fade">
+
 </div>

@@ -89,47 +89,53 @@
         <div class="row">
           <div class="col-12">
             <div class="card-deck">
-              
-                <div class="card-body" style="padding-right: 1px;">
-                  <div class="card border-primary mb-3" style="max-width: 30rem;border-color: #003399;">
-                    <div class="card-header text-white" style="background-color:#003399; font-weight: 500;">
-                      <i class="icon ion-logo-bitcoin"></i>&nbsp;&nbsp;Savings</div>
-                    <div class="card-body text-primary" style="margin-right: 0px;">
-                      <h5 class="card-title">014-323055-4</h5>
-                      <p class="card-text">Balance : 5,023.73 Bahts
-                        <span>
-                          <p class="link" (click)="showHideDetail()" style="margin-bottom: 0px; float:right;font-weight: 500;">Detail</p>
-                        </span>
-                      </p>
-                      <!-- show recent transaction -->
-                      <div *ngIf="toggleDetail">
-                        <p class="card-text">line 1</p>
-                        <p class="card-text">line 2</p>
-                        <p class="card-text">line 3</p>
-                      </div>
 
+              <div class="card-body" style="padding-right: 1px;">
+                <div class="card border-primary mb-3" style="max-width: 30rem;border-color: #003399;">
+                  <div class="card-header text-white" style="background-color:#003399; font-weight: 500;">
+                    <i class="icon ion-logo-bitcoin"></i>&nbsp;&nbsp;Savings&nbsp;&nbsp;
+                    <span class="badge badge-primary">5</span>
+                  </div>
+                  <div class="card-body text-primary" style="margin-right: 0px;">
+                    <h5 class="card-title">014-323055-4</h5>
+                    <p class="card-text">Balance : 5,023.73 Bahts
+                      <span>
+                        <p class="link" (click)="showHideDetail()" style="margin-bottom: 0px; float:right;font-weight: 500;">Detail</p>
+                      </span>
+                    </p>
+                    <!-- show recent transaction -->
+                    <div *ngIf="toggleDetail">
+                      <p class="card-text">line 1</p>
+                      <p class="card-text">line 2</p>
+                      <p class="card-text">line 3</p>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+
+
+              <div class="card-body" style="padding-left: 1px;">
+                <div class="card border-primary mb-3" style="max-width: 30rem;border-color: #003399;">
+                  <div class="card-header text-white" style="background-color:#003399; font-weight: 500;">
+                    <i class="icon ion-logo-bitcoin"></i>&nbsp;&nbsp;Savings</div>
+                  <div class="card-body text-primary" style="margin-left: 0px;">
+                    <h5 class="card-title">173-235270-3</h5>
+                    <p class="card-text">Balance : 12,750.25 Bahts
+                      <span>
+                        <p class="link" (click)="showHideDetail2()" style="margin-bottom: 0px; float:right;font-weight: 500;">Detail</p>
+                      </span>
+                    </p>
+                    <!-- show recent transaction -->
+                    <div *ngIf="toggleDetail2">
+                      <p class="card-text">line 1</p>
+                      <p class="card-text">line 2</p>
+                      <p class="card-text">line 3</p>
                     </div>
                   </div>
                 </div>
-              
-              
-                <div class="card-body" style="padding-left: 1px;">
-                  <div class="card border-primary mb-3" style="max-width: 30rem;border-color: #003399;">
-                    <div class="card-header text-white" style="background-color:#003399; font-weight: 500;">
-                      <i class="icon ion-logo-bitcoin"></i>&nbsp;&nbsp;Savings</div>
-                    <div class="card-body text-primary" style="margin-left: 0px;">
-                      <h5 class="card-title">173-235270-3</h5>
-                      <p class="card-text">Balance : 12,750.25 Bahts
-                        <span>
-                          <p style="margin-bottom: 0px; float:right;font-weight: 500;">
-                            <a href="#" (click)="showHideDetail()">Detail</a>
-                          </p>
-                        </span>
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              
+              </div>
+
             </div>
           </div>
         </div>
