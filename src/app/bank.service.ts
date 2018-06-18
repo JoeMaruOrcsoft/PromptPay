@@ -15,6 +15,16 @@ import {
 })
 export class BankService {
   accountList = [];
+  slip={
+    txnID : "",
+    date : "",
+    fromAcc : "",
+    toAcc : "",
+    accName : "Test Name",
+    amount : "",
+    fee : ""
+  }
+  toAccName;
   constructor(private http: Http, private userService: UserService) {}
   initAccountIDList() {
     //reset list after re-login
@@ -30,7 +40,9 @@ export class BankService {
   checkDesAccount(desAccount){
     return this.http.get('http://localhost:8091/v1/v1/callRestApiController/checkDesAccount?accountID='+desAccount).toPromise();
   }
-
+  getToAccName(accountID){
+    return this.http.get('http://localhost:8091/v1/v1/callRestApiController/getCustomerName?accountID='+accountID).toPromise()
+  }
   localTransfer(fromAcc, toAcc, transferAmount:number) {
     let accountDetail = this.userService.accountDetail;
 
@@ -52,7 +64,18 @@ export class BankService {
       let options = new RequestOptions({ headers: headers });
       this.http.post('http://localhost:8091/v1/v1/callRestApiController/transferLocal',body,options).subscribe(res=>{
         if(res.status == 200){
-          console.log("transfer success") //transfer success
+          console.log("transfer success") //transfer success       
+          let txnID = res.json().TxnID;
+          this.http.get('http://localhost:8091/v1/v1/callRestApiController/getTransactionDetail?txnID='+txnID).toPromise().then(res=>{
+            let detail = res.json();
+            this.slip.amount = detail.NetAmount;
+            this.slip.date = detail.CreateDTM;
+            this.slip.fee = detail.FeeAmount;
+            this.slip.fromAcc = detail.SendAccountID;
+            this.slip.toAcc = detail.ReceiveAccountID;
+            this.slip.txnID = detail.TxnID;
+            this.slip.accName = this.toAccName;
+          })
           this.http.get('http://localhost:8091/v1/v1/callRestApiController/updateLatestAmount?accountID='+fromAcc).subscribe(res=>{
             if(res.status == 200){
               let latestAmount = res.json();
@@ -87,19 +110,19 @@ export class BankService {
       })
     
   }
-  // getData(type,value){
-  //   return this.http.get('http://localhost:8091/v1/v1/callRestApiController/getPromptPayDetail?type='+type+'&value='+value).toPromise();
-  // }
-  // register(){
-  //   let body = JSON.stringify({
-  //     "IDType": "mobile",
-  //     "IDValue":"0000000777",
-  //     "BankCode" : "002",
-  //     "AccountID" : "000-0-111111-8",
-  //     "AccountName" : "eiei7"
-  //   });
-  //   let headers = new Headers({ 'Content-Type': 'application/json' });
-  //   let options = new RequestOptions({ headers: headers});
-  //   return this.http.post('http://localhost:8091/v1/v1/callRestApiController/postRegisterPromppay',body,options).toPromise()
-  // }
+registerPromptPay(resultSet){
+    let body = {
+      IDType : resultSet.idType,
+      IDValue : resultSet.idValue,
+      BankCode : resultSet.bankCode,
+      AccountID : resultSet.accNumber,
+      AccountName : resultSet.accName
+    }
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    let options = new RequestOptions({ headers: headers});
+    return this.http.post('http://localhost:8091/v1/v1/callRestApiController/postRegisterPromppay',body,options).toPromise();
+  }
+deletePromptPay(idType,idValue){
+  return this.http.post('http://localhost:8091/v1/v1/callRestApiController/deletePromptPay?type='+idType+'&value='+idValue,null).toPromise();
+}
 }

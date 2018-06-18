@@ -31,6 +31,15 @@ export class TransferComponent implements OnInit {
   hideAcc = true;
   insufficient = false;
   dontexist = false;
+  slip = {
+    txnID : "",
+    date : "",
+    fromAcc : "",
+    toAcc : "",
+    accName : "Test Name",
+    amount : "",
+    fee : ""
+  };
   constructor(
     private fb: FormBuilder,
     private router: Router,
@@ -94,9 +103,14 @@ export class TransferComponent implements OnInit {
   // 2. validate and verify then put in payload
   // 3. fire service and update database
   prepareReviewAccount() {
+    this.dontexist = false;
+    this.insufficient = false;
     this.accountTransfer.fromAcc = this.accountForm.controls["fromAcc"].value;
-    this.accountTransfer.accName = this.userService.accountDetail[0].name;
     this.accountTransfer.toAcc = this.accountForm.controls["toAcc"].value;
+    //get destination name using query service
+    this.bankService.getToAccName(this.accountTransfer.toAcc).then(res=>{
+      this.accountTransfer.accName = res.json().name;
+    })
     this.accountTransfer.amount = this.accountForm.controls["amount"].value;
     this.accountTransfer.fee = "0";
     //check destination account
@@ -121,15 +135,20 @@ export class TransferComponent implements OnInit {
           console.log("exist came here");
           //trigger des not found modal
           this.dontexist = true;
+
         }
         if (+this.accountTransfer.amount > +accountBalance) {
           //trigger inadequate balance
           this.insufficient = true;
+
         }
       } else if (+this.accountTransfer.amount <= +accountBalance) {
         //trigger review modal
         console.log("change hideAcc");
+
         this.hideAcc = !this.hideAcc;
+        this.slip = this.bankService.slip;
+        console.log('accname is '+this.accountTransfer.accName)
         this.openModal("openConfirmAccount");
       }
     });

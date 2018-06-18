@@ -65,8 +65,18 @@
                     <input style="border-top-right-radius:0;border-top-left-radius:0;" type="number" class="form-control" formControlName="idValue" placeholder="Enter Citizen ID here (e.g.1101700185478)" onkeydown="javascript: return event.keyCode == 69 ? false : true">
                   </div>
                 </div>
-
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#confirmRegister"[disabled]="!resultForm.valid">Register</button>
+                <div *ngIf="exist">
+                  <div class="alert alert-warning" role="alert">
+                    AnyID for IDType: [{{resultSet.idType}}], IDValue: [{{resultSet.idValue}}] already exists.
+                  </div>
+                </div>
+                <button type="button" (click)="resetRegisterDiv()"class="btn btn-primary" data-toggle="modal" data-target="#confirmRegister"[disabled]="!resultForm.valid">Register</button>
+                <div *ngIf="registerSuccess">
+                  <br>
+                  <div class="alert alert-success" role="alert">
+                    Successfully register PromptPay via IDType: [{{resultSet.idType}}], IDValue: [{{resultSet.idValue}}]
+                  </div>
+                </div>
               </form>
             </div>
           </div>
@@ -89,7 +99,25 @@
                   <input style="border-top-right-radius:0;border-top-left-radius:0;" type="number" class="form-control" formControlName="idValue" placeholder="Enter Citizen ID here (e.g.1101700185478)" onkeydown="javascript: return event.keyCode == 69 ? false : true">
                 </div>
               </div>
-              <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#confirmDelete" [disabled]="!deleteForm.valid">Delete</button>
+              <div *ngIf="getError">
+                <br>
+                <div class="alert alert-warning" role="alert">
+                  {{deleteSet.idValue}} is invalid, please try again.
+                </div>
+              </div>
+              <div *ngIf="deleteError">
+                  <br>
+                  <div class="alert alert-warning" role="alert">
+                   Error occurs, please try again.
+                  </div>
+                </div>
+              <button type="button" (click)="resetDeleteDiv()" class="btn btn-danger" data-toggle="modal" data-target="#confirmDelete" [disabled]="!deleteForm.valid">Delete</button>
+              <div *ngIf="registerSuccess">
+                  <br>
+                  <div class="alert alert-success" role="alert">
+                    Successfully cancel PromptPay with IDType: [{{resultSet.idType}}], IDValue: [{{resultSet.idValue}}]
+                  </div>
+                </div>
               </form>
             </div>
           </div>
@@ -127,14 +155,14 @@
           <br>
         </div>
         <label>Account No.</label>
-        <h5>{{resultForm.controls['idType'].accNumber}}</h5>
+        <h5>{{resultForm.controls['accNumber'].value|slice:0:3}}-{{resultForm.controls['accNumber'].value|slice:3:4}}-{{resultForm.controls['accNumber'].value|slice:4:9}}-{{resultForm.controls['accNumber'].value|slice:9:10}}</h5>
         <br>
         <label>Account Name</label>
         <h5>{{resultSet.accName}}</h5>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-        <button type="button" class="btn btn-primary">Confirm</button>
+        <button (click)="register()" type="button" data-dismiss="modal" class="btn btn-primary">Confirm</button>
       </div>
     </div>
   </div>
@@ -173,7 +201,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-        <button type="button" class="btn btn-danger">Confirm</button>
+        <button (click)="deletePromptPay()"type="button" class="btn btn-danger" data-dismiss="modal">Confirm</button>
       </div>
     </div>
   </div>

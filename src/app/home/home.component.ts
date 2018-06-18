@@ -1,6 +1,7 @@
+import { UserService } from './../user.service';
 import { Component, OnInit } from '@angular/core';
 import { BankService } from '../bank.service';
-import { Response} from '@angular/http'
+import { HttpErrorResponse} from '@angular/common/http'
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators  } from '@angular/forms';
 
@@ -10,24 +11,31 @@ import { FormBuilder, FormGroup, Validators  } from '@angular/forms';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  accountList = [1111111111,2222222222]
+  accountList = this.bankService.accountList;
   resultSet = {
     accNumber : this.accountList[0],
     bankCode : "002",
     idType : "mobile",
     idValue : "",
-    accName : "testUser"
+    accName : this.userService.accountDetail[0].name
   }
   deleteSet = {
     idType : "mobile",
     idValue: "",
-    accNumber : "",
-    accName : "testUser"
+    accNumber : this.accountList[0],
+    accName : this.userService.accountDetail[0].name
   }
   
   private resultForm : FormGroup
   private deleteForm : FormGroup
-  constructor(private router: Router,private bankService : BankService,private fb: FormBuilder) { }
+
+  exist = false;
+  registerSuccess = false;
+  getError = false;
+  deleteError = false;
+  deleteSuccess = false
+  
+  constructor(private router: Router,private bankService : BankService,private fb: FormBuilder,private userService : UserService) { }
   ngOnInit() {
     this.resultForm = this.fb.group({
       accNumber : [this.accountList[0]],
@@ -67,18 +75,53 @@ export class HomeComponent implements OnInit {
       }
     })
   }
+  resetRegisterDiv(){
+    this.registerSuccess = false;
+    this.exist = false;
+  }
+  resetDeleteDiv(){
+    this.deleteError = false;
+    this.getError = false;
+    this.deleteSuccess = false;
+  }
+  register(){
+    this.resultSet.idType = this.resultForm.controls['idType'].value;
+    this.resultSet.idValue = this.resultForm.controls['idValue'].value;
+    this.resultSet.accNumber = this.resultForm.controls['accNumber'].value
+    this.bankService.registerPromptPay(this.resultSet).then(()=>{
+      //show success alert
+      this.registerSuccess = true;
+      this.resultForm.reset({
+        accNumber : this.accountList[0],
+        idType : "mobile",
+        idValue : ""
+      })
+    }).catch((error)=>{
+      // show fail alert
+      console.log(error);
+      this.exist = true;
+    })
+  }
+  delete(){
+    this.deleteSet.idType = this.deleteForm.controls['idType'].value;
+    this.deleteSet.idValue = this.deleteForm.controls['idValue'].value;
+    this.bankService.deletePromptPay(this.deleteSet.idType,this.deleteSet.idValue).then(res=>{
+      //show success alert
+      this.deleteSuccess = true;
+      this.deleteForm.reset({
+        idType : "mobile",
+        idValue : ""
+      })
+    }).catch((error:HttpErrorResponse)=>{
+      //error in get AIP process
+      if(error.status == 400){
+        this.getError = true;
+      }else if(error.status == 404){
+        this.deleteError = true;
+      }
+    })
+  }
  
-  // callPostService(){
-  //   this.bankService.register().then((response)=>{
-  //     console.log('post success');
-  //   });
-  // }
-  // callGetService(type,value){
-  //   this.bankService.getData(type,value).then((response)=>{
-  //     const res = response.json();
-  //     console.log(res);
-  //   });
-  // }
   signout(){
     this.router.navigate([''])
   }

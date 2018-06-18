@@ -138,7 +138,7 @@
         <h5>{{promptpayForm.controls['toAccName'].value}}</h5>
         <hr>
         <label>Amount</label>
-        <h5>{{promptpayForm.controls['amount'].value|number :'.2-2'}} Bahts</h5>
+        <h5>{{promptpayForm.controls['amount'].value|number :'.2-2'}} Baht</h5>
         <!-- format into 2 decimal points-->
         <label>Fee</label>
         <h5>{{promptpayTransfer.fee}}</h5>
@@ -159,7 +159,7 @@
             <h5>
              1234567890</h5>
             <h5>{{promptpayTransfer.accName}}</h5>
-            <h5>{{promptpayTransfer.amount}} Bahts</h5>
+            <h5>{{promptpayTransfer.amount}} Baht</h5>
             <h5>{{promptpayTransfer.fee}}</h5>
           </div>
         </div> -->
@@ -191,14 +191,50 @@
         <h5>{{this.accountTransfer.accName}}</h5>
         <hr>
         <label>Amount</label>
-        <h5>{{this.accountTransfer.amount|number :'.2-2'}} Bahts</h5>
+        <h5>{{this.accountTransfer.amount|number :'.2-2'}} Baht</h5>
         <label>Fee</label>
-        <h5>{{accountTransfer.fee|number :'.2-2'}} Bahts</h5>
+        <h5>{{accountTransfer.fee|number :'.2-2'}} Baht</h5>
 
       </div>
       <div class="modal-footer">
         <button  type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
         <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="proceedTransferAccount()">Confirm</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="slipAccount" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered " role="document">
+    <div class="modal-content border-0">
+
+      <div class="modal-header" style="background-color: #2ecc71">
+        <h4 class="modal-title text-white text-center " style="margin: 0 auto;">Successful Transfer</h4>
+      </div>
+      <div class="modal-body ">
+        <div class="row">
+          <div class=" col-6 float-right" style="text-align: right;">
+            <h6>Transaction ID</h6>
+            <h6>Date</h6>
+            <h6>From Account</h6>
+            <h6>To Account</h6>
+            <h6>Account Name</h6>
+            <h6>Amount</h6>
+            <h6>Fee</h6>
+          </div>
+          <div class="col-6 float-left">
+            <h6 style="font-weight: 400;">{{slip.txnID}}</h6>
+            <h6 style="font-weight: 400;">{{slip.date| date:'yyyy-MM-dd HH:mm a z':'+0700'}}</h6>
+            <h6 style="font-weight: 400;">{{slip.fromAcc|slice:0:3}}-{{slip.fromAcc|slice:3:4}}-{{slip.fromAcc|slice:4:9}}-{{slip.fromAcc|slice:9:10}}</h6>
+            <h6 style="font-weight: 400;">{{slip.toAcc|slice:0:3}}-{{slip.toAcc|slice:3:4}}-{{slip.toAcc|slice:4:9}}-{{slip.toAcc|slice:9:10}}</h6>
+            <h6 style="font-weight: 400;">{{this.accountTransfer.accName}}</h6>
+            <h6 style="font-weight: 400;">{{slip.amount|number :'.2-2'}} Baht</h6>
+            <h6 style="font-weight: 400;">{{slip.fee|number :'.2-2'}} Baht</h6>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer" style="background-color:rgb(236, 236, 236)">
+        <button type="button" class="btn text-white text-center " style="margin: 0 auto; width:200px; background-color: #2ecc71;"
+          data-dismiss="modal">Close</button>
       </div>
     </div>
   </div>
@@ -227,43 +263,7 @@
             <h6 style="font-weight: 400;">XXXXXXXXXX</h6>
             <h6 style="font-weight: 400;">1234567890</h6>
             <h6 style="font-weight: 400;">{{promptpayTransfer.accName}}</h6>
-            <h6 style="font-weight: 400;">{{promptpayTransfer.amount}} Bahts</h6>
-            <h6 style="font-weight: 400;">{{promptpayTransfer.fee}}</h6>
-          </div>
-        </div>
-      </div>
-      <div class="modal-footer" style="background-color:rgb(236, 236, 236)">
-        <button type="button" class="btn text-white text-center " style="margin: 0 auto; width:200px; background-color: #2ecc71;"
-          data-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div>
-</div>
-<div class="modal fade" id="slipAccount" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered " role="document">
-    <div class="modal-content border-0">
-
-      <div class="modal-header" style="background-color: #2ecc71">
-        <h4 class="modal-title text-white text-center " style="margin: 0 auto;">Successful Transfer</h4>
-      </div>
-      <div class="modal-body ">
-        <div class="row">
-          <div class=" col-6 float-right" style="text-align: right;">
-            <h6>Transaction ID</h6>
-            <h6>Date</h6>
-            <h6>From Account</h6>
-            <h6>To Account</h6>
-            <h6>Account Name</h6>
-            <h6>Amount</h6>
-            <h6>Fee</h6>
-          </div>
-          <div class="col-6 float-left">
-            <h6 style="font-weight: 400;">DGEFS12D42GDDG8776</h6>
-            <h6 style="font-weight: 400;">Jun 12,2018 22:13</h6>
-            <h6 style="font-weight: 400;">XXXXXXXXXX</h6>
-            <h6 style="font-weight: 400;">1234567890</h6>
-            <h6 style="font-weight: 400;">{{promptpayTransfer.accName}}</h6>
-            <h6 style="font-weight: 400;">{{promptpayTransfer.amount}} Bahts</h6>
+            <h6 style="font-weight: 400;">{{promptpayTransfer.amount}} Baht</h6>
             <h6 style="font-weight: 400;">{{promptpayTransfer.fee}}</h6>
           </div>
         </div>

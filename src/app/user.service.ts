@@ -20,8 +20,6 @@ export class UserService {
     }),options).toPromise()
   }
   updateAccountDetail(accountID){
-    let headers = new Headers({'Content-Type':'application/json'})
-    let options = new RequestOptions({headers:headers})
     return this.http.get('http://localhost:8091/v1/v1/callRestApiController/updateLatestAmount?accountID='+accountID).toPromise()
   }
 }

@@ -98,7 +98,7 @@
                   </div>
                   <div class="card-body text-primary" style="margin-right: 0px;">
                     <h5 class="card-title">{{account[0].accountID |slice:0:3}}-{{account[0].accountID |slice:3:4}}-{{account[0].accountID |slice:4:9}}-{{account[0].accountID |slice:9:10}}</h5>
-                    <p class="card-text">Balance : {{account[0].balanceAmount|number :'.2-2'}} Bahts
+                    <p class="card-text">Balance : {{account[0].balanceAmount|number :'.2-2'}} Baht
                       <span>
                         <p class="link" data-toggle="collapse" data-target="#detail"style="margin-bottom: 0px; float:right;font-weight: 500;">Detail</p>
                       </span>
@@ -121,7 +121,7 @@
                     <i class="icon ion-logo-bitcoin"></i>&nbsp;&nbsp;Savings</div>
                   <div class="card-body text-primary" style="margin-left: 0px;">
                     <h5 class="card-title">{{account[1].accountID |slice:0:3}}-{{account[1].accountID |slice:3:4}}-{{account[1].accountID |slice:4:9}}-{{account[1].accountID |slice:9:10}}</h5>
-                    <p class="card-text">Balance : {{account[1].balanceAmount|number :'.2-2'}} Bahts
+                    <p class="card-text">Balance : {{account[1].balanceAmount|number :'.2-2'}} Baht
                       <span>
                         <p class="link" (click)="showHideDetail2()" style="margin-bottom: 0px; float:right;font-weight: 500;">Detail</p>
                       </span>
