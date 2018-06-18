@@ -68,17 +68,17 @@ export class HomeComponent implements OnInit {
     })
   }
  
-  callPostService(){
-    this.bankService.register().then((response)=>{
-      console.log('post success');
-    });
-  }
-  callGetService(type,value){
-    this.bankService.getData(type,value).then((response)=>{
-      const res = response.json();
-      console.log(res);
-    });
-  }
+  // callPostService(){
+  //   this.bankService.register().then((response)=>{
+  //     console.log('post success');
+  //   });
+  // }
+  // callGetService(type,value){
+  //   this.bankService.getData(type,value).then((response)=>{
+  //     const res = response.json();
+  //     console.log(res);
+  //   });
+  // }
   signout(){
     this.router.navigate([''])
   }

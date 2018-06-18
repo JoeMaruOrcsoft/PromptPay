@@ -84,7 +84,7 @@
       </nav>
       <div class="card" style="margin-top: 15px;">
         <div class="card-header" style=" font-weight: 500;">All Accounts
-          <span style="float: right;">Chonchanok Mitsatta</span>
+          <span style="float: right;">{{account[0].name}}</span>
         </div>
         <div class="row">
           <div class="col-12">
@@ -97,14 +97,14 @@
                     <span class="badge badge-primary">5</span>
                   </div>
                   <div class="card-body text-primary" style="margin-right: 0px;">
-                    <h5 class="card-title">014-323055-4</h5>
-                    <p class="card-text">Balance : 5,023.73 Bahts
+                    <h5 class="card-title">{{account[0].accountID |slice:0:3}}-{{account[0].accountID |slice:3:4}}-{{account[0].accountID |slice:4:9}}-{{account[0].accountID |slice:9:10}}</h5>
+                    <p class="card-text">Balance : {{account[0].balanceAmount|number :'.2-2'}} Bahts
                       <span>
-                        <p class="link" (click)="showHideDetail()" style="margin-bottom: 0px; float:right;font-weight: 500;">Detail</p>
+                        <p class="link" data-toggle="collapse" data-target="#detail"style="margin-bottom: 0px; float:right;font-weight: 500;">Detail</p>
                       </span>
                     </p>
                     <!-- show recent transaction -->
-                    <div *ngIf="toggleDetail">
+                    <div id="detail" class="collapse">
                       <p class="card-text">line 1</p>
                       <p class="card-text">line 2</p>
                       <p class="card-text">line 3</p>
@@ -120,8 +120,8 @@
                   <div class="card-header text-white" style="background-color:#003399; font-weight: 500;">
                     <i class="icon ion-logo-bitcoin"></i>&nbsp;&nbsp;Savings</div>
                   <div class="card-body text-primary" style="margin-left: 0px;">
-                    <h5 class="card-title">173-235270-3</h5>
-                    <p class="card-text">Balance : 12,750.25 Bahts
+                    <h5 class="card-title">{{account[1].accountID |slice:0:3}}-{{account[1].accountID |slice:3:4}}-{{account[1].accountID |slice:4:9}}-{{account[1].accountID |slice:9:10}}</h5>
+                    <p class="card-text">Balance : {{account[1].balanceAmount|number :'.2-2'}} Bahts
                       <span>
                         <p class="link" (click)="showHideDetail2()" style="margin-bottom: 0px; float:right;font-weight: 500;">Detail</p>
                       </span>

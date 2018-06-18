@@ -1,3 +1,4 @@
+import { UserService} from './../user.service';
 import { Component, OnInit } from '@angular/core';
 import { Router} from '@angular/router'
 
@@ -9,13 +10,30 @@ import { Router} from '@angular/router'
 export class LoginComponent implements OnInit {
   username;
   password;
-  constructor(private router : Router) { }
+ 
+  constructor(private router : Router,private userService : UserService) { }
 
   ngOnInit() {
   }
 
   //check username/password + save username to userService 
   signin(){
-    this.router.navigate(['/account']);
+    this.userService.login(this.username,this.password).then((res)=>{
+      let data = res.json();
+      
+      console.log(data);
+      this.userService.accountDetail = data;
+      console.log(this.userService.accountDetail);
+      this.router.navigate(['/account']);
+      
+    }).catch((err)=>{
+      if(err.status == 401){
+        console.log("error 401");
+      }else if(err.status == 500){
+        console.log("error 500?")
+      }
+    })
+    
+
   }
 }

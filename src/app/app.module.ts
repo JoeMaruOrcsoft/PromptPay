@@ -1,3 +1,4 @@
+import { UserService } from './user.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
@@ -35,7 +36,7 @@ const appRoute :Routes = [
     ReactiveFormsModule
   ],
   exports:[RouterModule],
-  providers: [TestServiceService],
+  providers: [TestServiceService,UserService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

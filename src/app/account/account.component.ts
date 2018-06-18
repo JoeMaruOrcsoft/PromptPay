@@ -1,3 +1,5 @@
+import { BankService } from './../bank.service';
+import { UserService } from './../user.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
@@ -9,10 +11,14 @@ import { Router } from '@angular/router';
 export class AccountComponent implements OnInit {
   toggleDetail = false;
   toggleDetail2 = false;
+  account;
 
-  constructor(private router: Router) { }
+  constructor(private router: Router,private userService : UserService,private bankService:BankService) { }
 
   ngOnInit() {
+    this.account = this.userService.accountDetail
+    console.log(this.account)
+    this.bankService.initAccountIDList();
   }
   signout(){
     this.router.navigate([''])
