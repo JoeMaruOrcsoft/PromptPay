@@ -28,7 +28,7 @@
               </a>
             </li>
           </ul>
-          <button class="btn btn-outline-primary my-2 my-sm-0" (click)="signout()">Sign out</button>
+          <button class="btn btn-outline-primary my-2 my-sm-0" (tap)="signout()">Sign out</button>
         </div>
 
       </nav>
@@ -66,13 +66,21 @@
                       class="form-control" formControlName="toIDValue" placeholder="Enter Citizen ID here (e.g.1101700185478)">
                   </div>
                 </div>
-
+                <div *ngIf="showErrordontexist">
+                    <div class="alert alert-warning" role="alert">
+                      AnyID for IDType: [{{promptpayTransfer.toIDType}}], IDValue: [{{promptpayTransfer.toIDValue}}] is not exist.
+                    </div>
+                  </div>
                 <div class="form-group">
                   <label for="type">Amount</label>
                   <input type="number" class="form-control" formControlName="amount" placeholder="Enter Amount here" onkeydown="javascript: return event.keyCode == 69 ? false : true">
                 </div>
-                <button (click)="prepareReviewPromptpay()" type="submit" class="btn btn-primary" data-toggle="modal" data-target="#confirmPromptPay"
-                  [disabled]="!promptpayForm.valid">Review</button>
+                <div *ngIf="ppinsufficient">
+                    <div class="alert alert-warning" role="alert">
+                      Insufficient Balance
+                    </div>
+                  </div>
+                <button (tap)="prepareReviewPromptpay()" type="submit" class="btn btn-primary" [disabled]="!promptpayForm.valid">Review</button>
               </form>
 
 
@@ -108,7 +116,7 @@
                     Insufficient Balance
                   </div>
                 </div>
-                <button (click)="prepareReviewAccount()" type="button" class="btn btn-primary" [disabled]="!accountForm.valid">Review</button>
+                <button (tap)="prepareReviewAccount()" type="button" class="btn btn-primary" [disabled]="!accountForm.valid">Review</button>
               </form>
             </div>
           </div>
@@ -133,15 +141,16 @@
         <h5>{{promptpayForm.controls['fromAcc'].value|slice:0:3}}-{{promptpayForm.controls['fromAcc'].value|slice:3:4}}-{{promptpayForm.controls['fromAcc'].value|slice:4:9}}-{{promptpayForm.controls['fromAcc'].value|slice:9:10}}</h5>
         <hr>
         <label>To Account</label>
-        <h5>{{promptpayForm.controls['toAcc'].value|slice:0:3}}-{{promptpayForm.controls['toAcc'].value|slice:3:4}}-{{promptpayForm.controls['toAcc'].value|slice:4:9}}-{{promptpayForm.controls['toAcc'].value|slice:9:10}}</h5>
+        <!-- <h5>{{promptpayForm.controls['toAcc'].value|slice:0:3}}-{{promptpayForm.controls['toAcc'].value|slice:3:4}}-{{promptpayForm.controls['toAcc'].value|slice:4:9}}-{{promptpayForm.controls['toAcc'].value|slice:9:10}}</h5> -->
+        <h5>{{promptpayTransfer.toAcc}}</h5>
         <label>Account Name</label>
-        <h5>{{promptpayForm.controls['toAccName'].value}}</h5>
+        <h5>{{promptpayTransfer.accName}}</h5>
         <hr>
         <label>Amount</label>
-        <h5>{{promptpayForm.controls['amount'].value|number :'.2-2'}} Baht</h5>
+        <h5>{{promptpayTransfer.amount|number :'.2-2'}} Baht</h5>
         <!-- format into 2 decimal points-->
         <label>Fee</label>
-        <h5>{{promptpayTransfer.fee}}</h5>
+        <h5>{{promptpayTransfer.fee|number :'.2-2'}} Baht</h5>
         <!-- <div class="row">
           <div class=" col-6 float-right" style="text-align: right;">
             <label>From Account</label>
@@ -166,7 +175,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-        <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="proceedTransferPromptPay()">Confirm</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" (tap)="proceedTransferPromptPay()">Confirm</button>
       </div>
     </div>
   </div>
@@ -198,7 +207,7 @@
       </div>
       <div class="modal-footer">
         <button  type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-        <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="proceedTransferAccount()">Confirm</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" (tap)="proceedTransferAccount()">Confirm</button>
       </div>
     </div>
   </div>
@@ -258,13 +267,13 @@
             <h6>Fee</h6>
           </div>
           <div class="col-6 float-left">
-            <h6 style="font-weight: 400;">DGEFS12D42GDDG8776</h6>
-            <h6 style="font-weight: 400;">Jun 12,2018 22:13</h6>
-            <h6 style="font-weight: 400;">XXXXXXXXXX</h6>
-            <h6 style="font-weight: 400;">1234567890</h6>
+            <h6 style="font-weight: 400;">{{slipPP.txnID}}</h6>
+            <h6 style="font-weight: 400;">{{slipPP.date| date:'yyyy-MM-dd HH:mm a z':'+0700'}}</h6>
+            <h6 style="font-weight: 400;">{{slipPP.fromAcc|slice:0:3}}-{{slipPP.fromAcc|slice:3:4}}-{{slipPP.fromAcc|slice:4:9}}-{{slipPP.fromAcc|slice:9:10}}</h6>
+            <h6 style="font-weight: 400;">{{slipPP.toAcc}}</h6>
             <h6 style="font-weight: 400;">{{promptpayTransfer.accName}}</h6>
-            <h6 style="font-weight: 400;">{{promptpayTransfer.amount}} Baht</h6>
-            <h6 style="font-weight: 400;">{{promptpayTransfer.fee}}</h6>
+            <h6 style="font-weight: 400;">{{slipPP.amount|number :'.2-2'}} Baht</h6>
+            <h6 style="font-weight: 400;">{{slipPP.fee|number :'.2-2'}} Baht</h6>
           </div>
         </div>
       </div>
@@ -277,4 +286,6 @@
 </div>
 <!-- button for triggering other modals  -->
 <button id="openSlipAccount" [hidden]="true" data-toggle="modal" data-target="#slipAccount"></button>
+<button id="openSlipPromptPay" [hidden]="true" data-toggle="modal" data-target="#slipPromptPay"></button>
 <button id="openConfirmAccount" [hidden]="true" data-toggle="modal" data-target="#confirmAccount"></button>
+<button id="openConfirmPromptPay" [hidden]="true" data-toggle="modal" data-target="#confirmPromptPay"></button>

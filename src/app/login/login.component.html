@@ -11,7 +11,7 @@
           <input type="text" class="form-control" [(ngModel)]="username" name="mobile" placeholder="username">
           <label style="margin-top:10px;">Password</label>
           <input type="password" class="form-control" [(ngModel)]="password" name="mobile" placeholder="password">
-          <button (click)="signin()"style="margin-top:15px;" type="button" class="btn btn-primary btn-block">Sign in</button>
+          <button (tap)="signin()"style="margin-top:15px;" type="button" class="btn btn-primary btn-block">Sign in</button>
         </div>
       </div>
     </div>
@@ -24,7 +24,12 @@
     <input type="text"  class="form-control" [(ngModel)]="username" name ="username" placeholder="username"  autofocus="">
     <label for="inputPassword" class="sr-only">Password</label>
     <input type="password"  class="form-control" placeholder="password"[(ngModel)]="password" name ="password" >
-    <button class="btn btn-lg btn-primary btn-block" style="margin-top:20px;"type="button" (click)="signin()">Sign in</button>
+    <div *ngIf="showError">
+        <div class="alert alert-danger" role="alert">
+          Username or Password is incorrect
+        </div>
+      </div>
+    <button class="btn btn-lg btn-primary btn-block" style="margin-top:20px;"type="button" (tap)="signin()">Sign in</button>
   </form>
 
 </div>

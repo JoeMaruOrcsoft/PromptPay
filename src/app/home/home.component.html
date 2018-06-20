@@ -28,7 +28,7 @@
               </a>
             </li>
           </ul>
-          <button class="btn btn-outline-primary my-2 my-sm-0" (click)="signout()">Sign out</button>
+          <button class="btn btn-outline-primary my-2 my-sm-0" (tap)="signout()">Sign out</button>
         </div>
 
       </nav>
@@ -70,7 +70,7 @@
                     AnyID for IDType: [{{resultSet.idType}}], IDValue: [{{resultSet.idValue}}] already exists.
                   </div>
                 </div>
-                <button type="button" (click)="resetRegisterDiv()"class="btn btn-primary" data-toggle="modal" data-target="#confirmRegister"[disabled]="!resultForm.valid">Register</button>
+                <button type="button" (tap)="resetRegisterDiv()"class="btn btn-primary" data-toggle="modal" data-target="#confirmRegister"[disabled]="!resultForm.valid">Register</button>
                 <div *ngIf="registerSuccess">
                   <br>
                   <div class="alert alert-success" role="alert">
@@ -100,20 +100,18 @@
                 </div>
               </div>
               <div *ngIf="getError">
-                <br>
                 <div class="alert alert-warning" role="alert">
                   {{deleteSet.idValue}} is invalid, please try again.
                 </div>
               </div>
               <div *ngIf="deleteError">
-                  <br>
                   <div class="alert alert-warning" role="alert">
                    Error occurs, please try again.
                   </div>
                 </div>
-              <button type="button" (click)="resetDeleteDiv()" class="btn btn-danger" data-toggle="modal" data-target="#confirmDelete" [disabled]="!deleteForm.valid">Delete</button>
-              <div *ngIf="registerSuccess">
-                  <br>
+              <button type="button" (tap)="resetDeleteDiv()" class="btn btn-danger" data-toggle="modal" data-target="#confirmDelete" [disabled]="!deleteForm.valid">Delete</button>
+              <div *ngIf="deleteSuccess">
+                <br>
                   <div class="alert alert-success" role="alert">
                     Successfully cancel PromptPay with IDType: [{{resultSet.idType}}], IDValue: [{{resultSet.idValue}}]
                   </div>
@@ -162,7 +160,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-        <button (click)="register()" type="button" data-dismiss="modal" class="btn btn-primary">Confirm</button>
+        <button (tap)="register()" type="button" data-dismiss="modal" class="btn btn-primary">Confirm</button>
       </div>
     </div>
   </div>
@@ -201,7 +199,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-        <button (click)="deletePromptPay()"type="button" class="btn btn-danger" data-dismiss="modal">Confirm</button>
+        <button (tap)="delete()"type="button" class="btn btn-danger" data-dismiss="modal">Confirm</button>
       </div>
     </div>
   </div>

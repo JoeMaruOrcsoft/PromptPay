@@ -115,9 +115,9 @@ export class HomeComponent implements OnInit {
     }).catch((error:HttpErrorResponse)=>{
       //error in get AIP process
       if(error.status == 400){
-        this.getError = true;
-      }else if(error.status == 404){
         this.deleteError = true;
+      }else if(error.status == 404){
+        this.getError = true;
       }
     })
   }

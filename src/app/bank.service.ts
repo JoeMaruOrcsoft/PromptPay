@@ -24,6 +24,15 @@ export class BankService {
     amount : "",
     fee : ""
   }
+  slipPP={
+    txnID : "",
+    date : "",
+    fromAcc : "",
+    toAcc : "",
+    accName : "Test Name",
+    amount : "",
+    fee : ""
+  }
   toAccName;
   constructor(private http: Http, private userService: UserService) {}
   initAccountIDList() {
@@ -110,7 +119,92 @@ export class BankService {
       })
     
   }
-registerPromptPay(resultSet){
+  promptpayTransfer(promptpayDetail){
+    let accountDetail = this.userService.accountDetail;
+    console.log(promptpayDetail)
+    let net = (+promptpayDetail.fee)+(+promptpayDetail.amount);
+    console.log(net)
+    let bodyInsert = JSON.stringify({
+      TxnType : "S",
+      TxnState : "Process",
+      TxnNote : "test transfer",
+      FeeAmount : promptpayDetail.fee,
+      SubmitAmount : promptpayDetail.amount,
+      NetAmount : net,
+      SendBankCode : "002",
+      SendAccountID : promptpayDetail.fromAcc,
+      ReceiveBankCode : promptpayDetail.toBankCode,
+      ReceiveAccountID : promptpayDetail.toAcc,
+      AIPID : promptpayDetail.AIPID
+    });
+    let bodyInsertReceiver = JSON.stringify({
+      TxnType : "R",
+      TxnState : "Complete",
+      TxnNote : "test transfer",
+      FeeAmount : 0,
+      SubmitAmount : promptpayDetail.amount,
+      NetAmount :  promptpayDetail.amount,
+      SendBankCode : "002",
+      SendAccountID : promptpayDetail.fromAcc,
+      ReceiveBankCode : promptpayDetail.toBankCode,
+      ReceiveAccountID : promptpayDetail.toAcc,
+      AIPID : promptpayDetail.AIPID
+    });
+    let bodyTransfer = JSON.stringify({
+      IDType : promptpayDetail.toIDType,
+      IDValue : promptpayDetail.toIDValue,
+      Amount : promptpayDetail.amount
+    })
+    let headers = new Headers({ "Content-Type": "application/json" });
+    let options = new RequestOptions({ headers: headers });
+    //first insert txn for sender
+    this.http.post('http://localhost:8091/v1/v1/callRestApiController/insertPromptPayTxn',bodyInsert,options).toPromise().then(res=>{
+      let id = res.json()
+      let senderTxnID = id.TxnID;   
+      this.http.post('http://localhost:8091/v1/v1/callRestApiController/transfer',bodyTransfer,options).toPromise().then((res=>{
+        console.log(res.json());
+        //update TxnState sender Txn
+        console.log('id = '+senderTxnID);
+          this.http.post('http://localhost:8091/v1/v1/callRestApiController/updateTxnState?txnID='+senderTxnID,null).toPromise()
+        //create complete receiver Txn
+
+          // this.http.post('http://localhost:8091/v1/v1/callRestApiController/insertPromptPayTxn',bodyInsertReceiver,options).toPromise()
+          // console.log("transfer success") //transfer success       
+          this.http.get('http://localhost:8091/v1/v1/callRestApiController/getTransactionDetail?txnID='+senderTxnID).toPromise().then(res=>{
+            let detail = res.json();
+            this.slipPP.amount = detail.SubmitAmount;
+            this.slipPP.date = detail.CreateDTM;
+            this.slipPP.fee = detail.FeeAmount;
+            this.slipPP.fromAcc = detail.SendAccountID;
+            this.slipPP.toAcc = detail.ReceiveAccountID;
+            this.slipPP.txnID = detail.TxnID;
+            this.slipPP.accName = promptpayDetail.accName;
+            console.log(this.slipPP)
+          })
+          this.http.get('http://localhost:8091/v1/v1/callRestApiController/updateLatestAmount?accountID='+promptpayDetail.fromAcc).subscribe(res=>{
+            if(res.status == 200){
+              let latestAmount = res.json();
+              console.log(latestAmount)
+              for (var key in accountDetail) {
+                if (
+                  accountDetail.hasOwnProperty(key) &&
+                  accountDetail[key].accountID == promptpayDetail.fromAcc
+                ) {
+                  accountDetail[key].balanceAmount = latestAmount; //update latest amount for sender account
+                }
+              }
+            }
+          })
+      
+        }))
+
+    })
+  }
+  getPromptPayDetail(idType,idValue){
+    return this.http.get('http://localhost:8091/v1/v1/callRestApiController/getPromptPayDetail?type='+idType+'&value='+idValue).toPromise()
+  }
+
+  registerPromptPay(resultSet){
     let body = {
       IDType : resultSet.idType,
       IDValue : resultSet.idValue,
@@ -122,7 +216,10 @@ registerPromptPay(resultSet){
     let options = new RequestOptions({ headers: headers});
     return this.http.post('http://localhost:8091/v1/v1/callRestApiController/postRegisterPromppay',body,options).toPromise();
   }
-deletePromptPay(idType,idValue){
-  return this.http.post('http://localhost:8091/v1/v1/callRestApiController/deletePromptPay?type='+idType+'&value='+idValue,null).toPromise();
-}
+  deletePromptPay(idType,idValue){
+    return this.http.post('http://localhost:8091/v1/v1/callRestApiController/deletePromptPay?type='+idType+'&value='+idValue,null).toPromise();
+  }
+  getRecentTransaction(accountID){
+    return this.http.get('http://localhost:8091/v1/v1/callRestApiController/selectRecentTransaction?accountID='+accountID).toPromise();
+  }
 }

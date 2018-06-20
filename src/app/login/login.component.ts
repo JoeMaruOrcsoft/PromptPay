@@ -10,7 +10,7 @@ import { Router} from '@angular/router'
 export class LoginComponent implements OnInit {
   username;
   password;
- 
+  showError;
   constructor(private router : Router,private userService : UserService) { }
 
   ngOnInit() {
@@ -29,8 +29,10 @@ export class LoginComponent implements OnInit {
     }).catch((err)=>{
       if(err.status == 401){
         console.log("error 401");
+        this.showError = true;
       }else if(err.status == 500){
-        console.log("error 500?")
+        console.log("error 500?");
+        this.showError = true;
       }
     })
     

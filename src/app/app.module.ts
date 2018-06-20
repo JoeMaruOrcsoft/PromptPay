@@ -33,7 +33,7 @@ const appRoute :Routes = [
     FormsModule,
     HttpClientModule,
     HttpModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
   exports:[RouterModule],
   providers: [TestServiceService,UserService],
