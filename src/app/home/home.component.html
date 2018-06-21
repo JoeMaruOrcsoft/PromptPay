@@ -28,7 +28,7 @@
               </a>
             </li>
           </ul>
-          <button class="btn btn-outline-primary my-2 my-sm-0" (tap)="signout()">Sign out</button>
+          <button class="btn btn-outline-primary my-2 my-sm-0" (click)="signout()">Sign out</button>
         </div>
 
       </nav>
@@ -48,7 +48,7 @@
                 <div class="form-group">
                   <label for="acc">Select Account</label>
                   <select class="form-control" id="acc" formControlName="accNumber">
-                    <option *ngFor="let acc of accountList" [ngValue]="acc">{{acc}}</option>
+                    <option *ngFor="let acc of accountList" [ngValue]="acc">{{acc|slice:0:3}}-{{acc|slice:3:4}}-{{acc|slice:4:9}}-{{acc|slice:9:10}}</option>
                   </select>
                 </div>
                 <div class="form-group">
@@ -70,7 +70,7 @@
                     AnyID for IDType: [{{resultSet.idType}}], IDValue: [{{resultSet.idValue}}] already exists.
                   </div>
                 </div>
-                <button type="button" (tap)="resetRegisterDiv()"class="btn btn-primary" data-toggle="modal" data-target="#confirmRegister"[disabled]="!resultForm.valid">Register</button>
+                <button type="button" (click)="resetRegisterDiv()"class="btn btn-primary" data-toggle="modal" data-target="#confirmRegister"[disabled]="!resultForm.valid">Register</button>
                 <div *ngIf="registerSuccess">
                   <br>
                   <div class="alert alert-success" role="alert">
@@ -109,7 +109,7 @@
                    Error occurs, please try again.
                   </div>
                 </div>
-              <button type="button" (tap)="resetDeleteDiv()" class="btn btn-danger" data-toggle="modal" data-target="#confirmDelete" [disabled]="!deleteForm.valid">Delete</button>
+              <button type="button" (click)="resetDeleteDiv()" class="btn btn-danger" data-toggle="modal" data-target="#confirmDelete" [disabled]="!deleteForm.valid">Delete</button>
               <div *ngIf="deleteSuccess">
                 <br>
                   <div class="alert alert-success" role="alert">
@@ -160,7 +160,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-        <button (tap)="register()" type="button" data-dismiss="modal" class="btn btn-primary">Confirm</button>
+        <button (click)="register()" type="button" data-dismiss="modal" class="btn btn-primary">Confirm</button>
       </div>
     </div>
   </div>
@@ -199,7 +199,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-        <button (tap)="delete()"type="button" class="btn btn-danger" data-dismiss="modal">Confirm</button>
+        <button (click)="delete()"type="button" class="btn btn-danger" data-dismiss="modal">Confirm</button>
       </div>
     </div>
   </div>

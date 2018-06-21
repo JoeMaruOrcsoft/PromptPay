@@ -12,12 +12,14 @@ import { Router } from "@angular/router";
 })
 export class TransferComponent implements OnInit {
   accountList;
+  balance;
   accountTransfer = {
     fromAcc: "",
     toAcc: "",
     amount: "",
     fee: "",
-    accName: "Destination User"
+    accName: "Destination User",
+    note: ""
   };
   promptpayTransfer = {
     fromAcc: "",
@@ -28,14 +30,16 @@ export class TransferComponent implements OnInit {
     accName: "Destination User",
     toAcc: "",
     toBankCode: "",
-    AIPID: ""
+    AIPID: "",
+    note:""
   };
   private promptpayForm: FormGroup;
   private accountForm: FormGroup;
   hideAcc = true;
   insufficient = false;
   dontexist = false;
-
+  sameAccount = false;
+  sameAccountPP = false;
   //promptpay
   ppexist = false;
   ppinsufficient: boolean = false;
@@ -83,11 +87,12 @@ export class TransferComponent implements OnInit {
           Validators.required,
           Validators.pattern("^((?!0+$)\\d+)(\\.\\d{1,2})?$")
         ]
-      ] //^((?!0+$)\d+)(\.\d{1,2})?$
+      ], //^((?!0+$)\d+)(\.\d{1,2})?$
+      note:['']
     });
     this.accountForm = this.fb.group({
       fromAcc: [this.accountList[0]],
-      toAcc: [""],
+      toAcc: ["",[Validators.required, Validators.pattern("^([0-9]{10})$")]],
       toAccName: ["Destination User"],
       amount: [
         "",
@@ -95,7 +100,8 @@ export class TransferComponent implements OnInit {
           Validators.required,
           Validators.pattern("^((?!0+$)\\d+)(\\.\\d{1,2})?$")
         ]
-      ] //^((?!0+$)\d+)(\.\d{1,2})?$
+      ], //^((?!0+$)\d+)(\.\d{1,2})?$
+      note:['']
     });
     this.onChangesPromptPay();
   }
@@ -124,8 +130,10 @@ export class TransferComponent implements OnInit {
   prepareReviewAccount() {
     this.dontexist = false;
     this.insufficient = false;
+    this.sameAccount = false;
     this.accountTransfer.fromAcc = this.accountForm.controls["fromAcc"].value;
     this.accountTransfer.toAcc = this.accountForm.controls["toAcc"].value;
+    this.accountTransfer.note = this.accountForm.controls["note"].value;
     //get destination name using query service
     this.bankService.getToAccName(this.accountTransfer.toAcc).then(res => {
       this.accountTransfer.accName = res.json().name;
@@ -146,10 +154,11 @@ export class TransferComponent implements OnInit {
           accountDetail[key].accountID == this.accountTransfer.fromAcc
         ) {
           accountBalance = accountDetail[key].balanceAmount;
+          this.balance = accountDetail[key].balanceAmount;
         }
       }
       console.log("exist is " + exist);
-      if (exist == false || +this.accountTransfer.amount > +accountBalance) {
+      if (exist == false || +this.accountTransfer.amount > +accountBalance || (this.accountTransfer.toAcc == this.accountTransfer.fromAcc)) {
         if (exist == false) {
           console.log("exist came here");
           //trigger des not found modal
@@ -158,6 +167,10 @@ export class TransferComponent implements OnInit {
         if (+this.accountTransfer.amount > +accountBalance) {
           //trigger inadequate balance
           this.insufficient = true;
+        }
+        if(this.accountTransfer.toAcc == this.accountTransfer.fromAcc){
+          //trigger same account
+          this.sameAccount = true;
         }
       } else if (+this.accountTransfer.amount <= +accountBalance) {
         //trigger review modal
@@ -173,6 +186,7 @@ export class TransferComponent implements OnInit {
   prepareReviewPromptpay() {
     this.ppinsufficient = false;
     this.showErrordontexist = false;
+    this.sameAccountPP = false;
     this.promptpayTransfer.fromAcc = this.promptpayForm.controls[
       "fromAcc"
     ].value;
@@ -183,6 +197,7 @@ export class TransferComponent implements OnInit {
       "toIDValue"
     ].value;
     this.promptpayTransfer.amount = this.promptpayForm.controls["amount"].value;
+    this.promptpayTransfer.note = this.promptpayForm.controls["note"].value;
     //check balance
     let accountDetail = this.userService.accountDetail;
     let accountBalance;
@@ -192,6 +207,7 @@ export class TransferComponent implements OnInit {
         accountDetail[key].accountID == this.promptpayTransfer.fromAcc
       ) {
         accountBalance = accountDetail[key].balanceAmount;
+        this.balance = accountDetail[key].balanceAmount;
       }
     }
     //check if promptpay id exists
@@ -201,8 +217,9 @@ export class TransferComponent implements OnInit {
         this.promptpayTransfer.toIDValue
       )
       .then(res => {
-        console.log(res.status)
-        if (+this.promptpayTransfer.amount > +accountBalance) {
+        console.log(res)
+        let detail = res.json();
+        if (+this.promptpayTransfer.amount > +accountBalance || (this.promptpayTransfer.fromAcc == detail.AccountID)) {
           {
             console.log("go to condition");
 
@@ -211,9 +228,12 @@ export class TransferComponent implements OnInit {
               this.ppinsufficient = true;
               console.log(this.ppinsufficient);
             }
+            if(this.promptpayTransfer.fromAcc == detail.AccountID){
+              this.sameAccountPP = true;
+            }
           }
         } else if (+this.promptpayTransfer.amount <= +accountBalance) {
-          let detail = res.json();
+          
           console.log(detail);
           this.promptpayTransfer.accName = detail.AccountName;
           this.promptpayTransfer.toAcc = detail.AccountID;
@@ -279,7 +299,8 @@ export class TransferComponent implements OnInit {
     this.bankService.localTransfer(
       this.accountTransfer.fromAcc,
       this.accountTransfer.toAcc,
-      +this.accountTransfer.amount
+      +this.accountTransfer.amount,
+      this.accountTransfer.note
     );
     this.accountForm.reset({
       fromAcc: this.accountList[0],

@@ -108,13 +108,17 @@
                             </span>
                     </p>
                     <!-- show recent transaction -->
-                    <div id="detail0" class="collapse" style="overflow-y:scroll; max-height: 250px">
-                      <div *ngFor="let txn of recentTxn[0]" class="card-text">
+                    <div id="detail0" class="collapse" >
+                      <div *ngFor="let txn of recentTxn[0],let i = index" class="card-text">
 
-                        <div *ngIf="txn.TxnType== 'S'"class="sStyle">
+                        <div *ngIf="txn.TxnType== 'S'"class="sStyle" data-toggle="collapse" [attr.data-target]="'#'+i">
                           <p class="marginP"><span class="badge badge-pill" style="background-color:#c00000; color:#ffffff;">{{txn.CreateDTM |date:'dd MMM yy HH:mm' }}</span><span *ngIf="txn.AIPID == 0 "class="badge badge-pill badge-primary" style="float:right;background-color:#c00000; color:#ffffff;">Local Bank</span><span *ngIf="txn.AIPID != 0" class="badge badge-pill badge-primary" style="float:right;background-color:#c00000; color:#ffffff;">Inter Bank</span></p>
                           <p class="marginP" style="font-size:12px; color:#c00000;"><span style="font-weight: 500; color:#c00000;">Transfer Withdrawal</span> &nbsp;&nbsp;&nbsp;<span *ngIf="txn.AIPID == 0">{{txn.ReceiveAccountID|slice:0:3}}-{{txn.ReceiveAccountID|slice:3:4}}-{{txn.ReceiveAccountID|slice:4:9}}-{{txn.ReceiveAccountID|slice:9:10}}</span><span *ngIf="txn.AIPID!=0">{{txn.ReceiveAccountID}}</span><span style="float:right; font-size:16px;font-weight: 500; color:#c00000;">-{{txn.SubmitAmount|number :'.2-2'}}</span></p>
                         </div>
+                        <div class="collapse sStyleC" id={{i}} style="margin-top:0;">
+                            <span style="font-weight: 500; color:#b19104;">Note : </span><span style="color:#b19104;">{{txn.TxnNote}}</span>
+                        </div>
+
                         <div *ngIf="txn.TxnType== 'R'"class="rStyle">
                             <p class="marginP"><span class="badge badge-pill" style="background-color:#0b8000; color:#ffffff;">{{txn.CreateDTM |date:'dd MMM yy HH:mm' }}</span><span *ngIf="txn.AIPID == 0 && txn.SendBankCode =='002'"class="badge badge-pill badge-primary" style="float:right;background-color:#0b8000; color:#ffffff;">Local Bank</span><span *ngIf="txn.AIPID != 0 || txn.SendBankCode !='002'" class="badge badge-pill badge-primary" style="float:right;background-color:#0b8000; color:#ffffff;">Inter Bank</span></p>
                             <p class="marginP" style="font-size:12px; color:#0b8000;"><span style="font-weight: 500; color:#0b8000;">Transfer Deposit</span> &nbsp;&nbsp;&nbsp;<span *ngIf="txn.AIPID == 0">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{txn.SendAccountID|slice:0:3}}-{{txn.SendAccountID|slice:3:4}}-{{txn.SendAccountID|slice:4:9}}-{{txn.SendAccountID|slice:9:10}}</span><span *ngIf="txn.AIPID!=0">{{txn.ReceiveAccountID}}</span><span style="float:right; font-size:16px;font-weight: 500; color:#0b8000;">+{{txn.NetAmount|number :'.2-2'}}</span></p>
@@ -143,16 +147,19 @@
                         </span>
                     </p>
                     <!-- show recent transaction -->
-                    <div id="detail1" class="collapse" style="overflow-y:scroll; max-height: 250px">
-                        <div *ngFor="let txn of recentTxn[1]" class="card-text">
+                    <div id="detail1" class="collapse" >
+                        <div *ngFor="let txn of recentTxn[1],let i = index" class="card-text">
   
-                          <div *ngIf="txn.TxnType== 'S'"class="sStyle">
+                          <div *ngIf="txn.TxnType== 'S'"class="sStyle"  data-toggle="collapse" [attr.data-target]="'#1'+i">
                             <p class="marginP"><span class="badge badge-pill" style="background-color:#c00000; color:#ffffff;">{{txn.CreateDTM |date:'dd MMM yy HH:mm' }}</span><span *ngIf="txn.AIPID == 0"class="badge badge-pill badge-primary" style="float:right;background-color:#c00000; color:#ffffff;">Local Bank</span><span *ngIf="txn.AIPID != 0" class="badge badge-pill badge-primary" style="float:right;background-color:#c00000; color:#ffffff;">Inter Bank</span></p>
                             <p class="marginP" style="font-size:12px; color:#c00000;"><span style="font-weight: 500; color:#c00000;">Transfer Withdrawal</span> &nbsp;&nbsp;&nbsp;<span *ngIf="txn.AIPID == 0">{{txn.ReceiveAccountID|slice:0:3}}-{{txn.ReceiveAccountID|slice:3:4}}-{{txn.ReceiveAccountID|slice:4:9}}-{{txn.ReceiveAccountID|slice:9:10}}</span><span *ngIf="txn.AIPID!=0">{{txn.ReceiveAccountID}}</span><span style="float:right; font-size:16px;font-weight: 500; color:#c00000;">-{{txn.SubmitAmount|number :'.2-2'}}</span></p>
                           </div>
+                          <div class="collapse sStyleC" id=1{{i}} style="margin-top:0;">
+                              <span style="font-weight: 500; color:#b19104;">Note : </span><span style="color:#b19104;">{{txn.TxnNote}}</span>
+                          </div>
                           <div *ngIf="txn.TxnType== 'R'"class="rStyle">
                               <p class="marginP"><span class="badge badge-pill" style="background-color:#0b8000; color:#ffffff;">{{txn.CreateDTM |date:'dd MMM yy HH:mm' }}</span><span *ngIf="txn.AIPID == 0"class="badge badge-pill badge-primary" style="float:right;background-color:#0b8000; color:#ffffff;">Local Bank</span><span *ngIf="txn.AIPID != 0" class="badge badge-pill badge-primary" style="float:right;background-color:#0b8000; color:#ffffff;">Inter Bank</span></p>
-                              <p class="marginP" style="font-size:12px; color:#0b8000;"><span style="font-weight: 500; color:#0b8000;">Transfer Deposit</span> &nbsp;&nbsp;&nbsp;<span *ngIf="txn.AIPID == 0">{{txn.SendAccountID|slice:0:3}}-{{txn.SendAccountID|slice:3:4}}-{{txn.SendAccountID|slice:4:9}}-{{txn.SendAccountID|slice:9:10}}</span><span *ngIf="txn.AIPID!=0">{{txn.ReceiveAccountID}}</span><span style="float:right; font-size:16px;font-weight: 500; color:#0b8000;">+{{txn.NetAmount|number :'.2-2'}}</span></p>
+                              <p class="marginP" style="font-size:12px; color:#0b8000;"><span style="font-weight: 500; color:#0b8000;">Transfer Deposit</span> &nbsp;&nbsp;&nbsp;<span *ngIf="txn.AIPID == 0">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{txn.SendAccountID|slice:0:3}}-{{txn.SendAccountID|slice:3:4}}-{{txn.SendAccountID|slice:4:9}}-{{txn.SendAccountID|slice:9:10}}</span><span *ngIf="txn.AIPID!=0">{{txn.ReceiveAccountID}}</span><span style="float:right; font-size:16px;font-weight: 500; color:#0b8000;">+{{txn.NetAmount|number :'.2-2'}}</span></p>
                             </div>
                         </div>
                       </div>

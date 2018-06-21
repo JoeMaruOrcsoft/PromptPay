@@ -1,35 +1,16 @@
-<!-- <div class = "background">
-  <div class="col-sm-4 col-sm-offset-4" style="margin-top : 5%">
-    <div class="panel panel-default">
-      <div class="panel-body">
-        <div class="text-center">
-          <img src="../../assets/image/BBL.png">
-        </div>
-
-        <div style="margin-top:15px;" class="form-group">
-          <label>Username</label>
-          <input type="text" class="form-control" [(ngModel)]="username" name="mobile" placeholder="username">
-          <label style="margin-top:10px;">Password</label>
-          <input type="password" class="form-control" [(ngModel)]="password" name="mobile" placeholder="password">
-          <button (tap)="signin()"style="margin-top:15px;" type="button" class="btn btn-primary btn-block">Sign in</button>
-        </div>
-      </div>
-    </div>
-  </div>
-</div> -->
 <div class="container">
-  <form class="form-signin">
+  <form class="form-signin" novalidate [formGroup]="form">
     <img class="form-signin" src="../../assets/image/bblwide.png">
     <label for="inputEmail" class="sr-only">Email address</label>
-    <input type="text"  class="form-control" [(ngModel)]="username" name ="username" placeholder="username"  autofocus="">
+    <input type="text"  class="form-control" formControlName="user" placeholder="username"  autofocus="">
     <label for="inputPassword" class="sr-only">Password</label>
-    <input type="password"  class="form-control" placeholder="password"[(ngModel)]="password" name ="password" >
+    <input type="password"  class="form-control" formControlName="password"placeholder="password" >
     <div *ngIf="showError">
         <div class="alert alert-danger" role="alert">
           Username or Password is incorrect
         </div>
       </div>
-    <button class="btn btn-lg btn-primary btn-block" style="margin-top:20px;"type="button" (tap)="signin()">Sign in</button>
+    <button class="btn btn-lg btn-primary btn-block" style="margin-top:20px;"type="button" (click)="signin()"[disabled]="!form.valid">Sign in</button>
   </form>
 
 </div>

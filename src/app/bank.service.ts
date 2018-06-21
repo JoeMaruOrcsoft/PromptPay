@@ -52,7 +52,7 @@ export class BankService {
   getToAccName(accountID){
     return this.http.get('http://localhost:8091/v1/v1/callRestApiController/getCustomerName?accountID='+accountID).toPromise()
   }
-  localTransfer(fromAcc, toAcc, transferAmount:number) {
+  localTransfer(fromAcc, toAcc, transferAmount:number,note) {
     let accountDetail = this.userService.accountDetail;
 
       let fee = 0;
@@ -60,7 +60,7 @@ export class BankService {
       let body = JSON.stringify({
         TxnType : "S",
         TxnState : "Complete",
-        TxnNote : "test transfer",
+        TxnNote : note,
         FeeAmount : fee,
         SubmitAmount : transferAmount,
         NetAmount : net,
@@ -127,7 +127,7 @@ export class BankService {
     let bodyInsert = JSON.stringify({
       TxnType : "S",
       TxnState : "Process",
-      TxnNote : "test transfer",
+      TxnNote : promptpayDetail.note,
       FeeAmount : promptpayDetail.fee,
       SubmitAmount : promptpayDetail.amount,
       NetAmount : net,
@@ -137,23 +137,25 @@ export class BankService {
       ReceiveAccountID : promptpayDetail.toAcc,
       AIPID : promptpayDetail.AIPID
     });
-    let bodyInsertReceiver = JSON.stringify({
-      TxnType : "R",
-      TxnState : "Complete",
-      TxnNote : "test transfer",
-      FeeAmount : 0,
-      SubmitAmount : promptpayDetail.amount,
-      NetAmount :  promptpayDetail.amount,
-      SendBankCode : "002",
-      SendAccountID : promptpayDetail.fromAcc,
-      ReceiveBankCode : promptpayDetail.toBankCode,
-      ReceiveAccountID : promptpayDetail.toAcc,
-      AIPID : promptpayDetail.AIPID
-    });
+    // let bodyInsertReceiver = JSON.stringify({
+    //   TxnType : "R",
+    //   TxnState : "Complete",
+    //   TxnNote : "test transfer",
+    //   FeeAmount : 0,
+    //   SubmitAmount : promptpayDetail.amount,
+    //   NetAmount :  promptpayDetail.amount,
+    //   SendBankCode : "002",
+    //   SendAccountID : promptpayDetail.fromAcc,
+    //   ReceiveBankCode : promptpayDetail.toBankCode,
+    //   ReceiveAccountID : promptpayDetail.toAcc,
+    //   AIPID : promptpayDetail.AIPID
+    // });
     let bodyTransfer = JSON.stringify({
       IDType : promptpayDetail.toIDType,
       IDValue : promptpayDetail.toIDValue,
-      Amount : promptpayDetail.amount
+      Amount : promptpayDetail.amount,
+      SendAccountID : promptpayDetail.fromAcc,
+      SendBankCode : '002'
     })
     let headers = new Headers({ "Content-Type": "application/json" });
     let options = new RequestOptions({ headers: headers });
@@ -180,23 +182,27 @@ export class BankService {
             this.slipPP.txnID = detail.TxnID;
             this.slipPP.accName = promptpayDetail.accName;
             console.log(this.slipPP)
-          })
-          this.http.get('http://localhost:8091/v1/v1/callRestApiController/updateLatestAmount?accountID='+promptpayDetail.fromAcc).subscribe(res=>{
-            if(res.status == 200){
-              let latestAmount = res.json();
-              console.log(latestAmount)
-              for (var key in accountDetail) {
-                if (
-                  accountDetail.hasOwnProperty(key) &&
-                  accountDetail[key].accountID == promptpayDetail.fromAcc
-                ) {
-                  accountDetail[key].balanceAmount = latestAmount; //update latest amount for sender account
+            this.http.get('http://localhost:8091/v1/v1/callRestApiController/updateLatestAmount?accountID='+promptpayDetail.fromAcc).subscribe(res=>{
+              if(res.status == 200){
+                let latestAmount = res.json();
+                console.log(latestAmount)
+                for (var key in accountDetail) {
+                  if (
+                    accountDetail.hasOwnProperty(key) &&
+                    accountDetail[key].accountID == promptpayDetail.fromAcc
+                  ) {
+                    accountDetail[key].balanceAmount = latestAmount; //update latest amount for sender account
+                  }
                 }
               }
-            }
+            })
           })
+
       
-        }))
+        })).catch(()=>{
+          console.log("transfer fail update state to fail.")
+          this.http.post('http://localhost:8091/v1/v1/callRestApiController/updateTxnStateFail?txnID='+senderTxnID,null).toPromise();
+        })
 
     })
   }

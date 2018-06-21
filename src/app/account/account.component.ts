@@ -36,6 +36,9 @@ export class AccountComponent implements OnInit {
   changeArrow(){
     this.isClick = !this.isClick;
   }
+  changeState(){
+    
+  }
   signout(){
     this.router.navigate([''])
   }
